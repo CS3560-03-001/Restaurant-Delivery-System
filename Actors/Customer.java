@@ -1,46 +1,47 @@
 public class Customer {
-    // Vars
-    private final String customerID;
-    private final String name;
-    private final String phone;
-    private final String address;
-    private final String email;
+	// Customer fields
+	private final String customerID;
+	private final String name;
+	private final String phone;
+	private final String address;
+	private final String email;
 
-    // Accessors
-    public String GetCustomerID() {
-        return customerID;
-    }
+	// Constructor
+	public Customer(String customerID, String name, String phone, String address, String email) {
+		this.customerID = customerID;
+		this.name = name;
+		this.phone = phone;
+		this.address = address;
+		this.email = email;
+	}
 
-    public String GetName() {
-        return name;
-    }
+	// Logic methods
+	public void placeOrder() {
 
-    public String GetPhone() {
-        return phone;
-    }
+	}
 
-    public String GetAddress() {
-        return address;
-    }
+	public void trackOrder() {
 
-    public String GetEmail() {
-        return email;
-    }
+	}
 
-    // Methods
-    public Customer(String customerID, String name, String phone, String address, String email) {
-        this.customerID = customerID;
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        this.email = email;
-    }
+	// Accessors
+	public String getCustomerID() {
+		return customerID;
+	}
 
-    public void placeOrder() {
+	public String getName() {
+		return name;
+	}
 
-    }
+	public String getPhone() {
+		return phone;
+	}
 
-    public void trackOrder() {
+	public String getAddress() {
+		return address;
+	}
 
-    }
+	public String getEmail() {
+		return email;
+	}
 }

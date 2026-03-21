@@ -1,32 +1,19 @@
-public class Cook {
-    // Vars
-    private final String employeeID;
-    private final String name;
+public class Cook extends Employee {
+	// Constructors
+	public Cook(String employeeID, String name) {
+		super(employeeID, name);
+	}
 
-    // Accessors
-    public String GetEmployeeID() {
-        return employeeID;
-    }
+	// Logic Methods
+	public void revieveOrder() {
 
-    public String GetName() {
-        return name;
-    }
+	}
 
-    // Methods
-    public Cook(String employeeID, String name) {
-        this.employeeID = employeeID;
-        this.name = name;
-    }
+	public void beginOrder() {
 
-    public void revieveOrder() {
+	}
 
-    }
+	public void markOrderReady() {
 
-    public void beginOrder(){
-
-    }
-
-    public void markOrderReady() {
-
-    }
+	}
 }
