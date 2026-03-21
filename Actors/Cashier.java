@@ -1,32 +1,18 @@
-public class Cashier {
-    // Vars
-    private final String employeeID;
-    private final String name;
+public class Cashier extends Employee {
+	// Methods
+	public Cashier(String employeeID, String name) {
+		super(employeeID, name);
+	}
 
-    // Accessors
-    public String GetEmployeeID() {
-        return employeeID;
-    }
+	public void createOrder() {
 
-    public String GetName() {
-        return name;
-    }
+	}
 
-    // Methods
-    public Cashier(String employeeID, String name) {
-        this.employeeID = employeeID;
-        this.name = name;
-    }
+	public void cashOutOrder() {
 
-    public void createOrder() {
+	}
 
-    }
+	public void processPayment() {
 
-    public void cashOutOrder() {
-
-    }
-
-    public void processPayment() {
-
-    }
+	}
 }
