@@ -15,7 +15,7 @@ const STORAGE_KEY = 'restaurant-delivery-flow';
 export interface FlowState {
   accountDraft: CustomerCreateRequest;
   customer: CustomerCreateResponse | null;
-  pizzaDraft: PizzaSelection;
+  pizzaDrafts: PizzaSelection[];
   order: OrderCreateResponse | null;
   payment: PaymentResponse | null;
   latestStatus: OrderStatusResponse | null;
@@ -28,32 +28,19 @@ export const emptyPizzaSelection = (): PizzaSelection => ({
   toppings: []
 });
 
-export const emptyDeliveryAddress = (): DeliveryAddress => ({
-  streetAddress: '',
-  apartment: '',
-  city: '',
-  state: '',
-  zip: '',
-  country: 'United States'
-});
-
-function createDefaultState(): FlowState {
-  return {
-    accountDraft: {
-      name: '',
-      email: '',
-      phone: '',
-      address: emptyDeliveryAddress()
-    },
-    customer: null,
-    pizzaDraft: emptyPizzaSelection(),
-    order: null,
-    payment: null,
-    latestStatus: null
-  };
-}
-
-const defaultState = createDefaultState();
+const defaultState: FlowState = {
+  accountDraft: {
+    name: '',
+    email: '',
+    phone: '',
+    address: ''
+  },
+  customer: null,
+  pizzaDrafts: [emptyPizzaSelection()],
+  order: null,
+  payment: null,
+  latestStatus: null
+};
 
 function createFlowStore() {
   const initial = browser ? readStoredState() : defaultState;
@@ -73,7 +60,7 @@ function createFlowStore() {
       store.update((state) => ({ ...state, accountDraft })),
     setCustomer: (customer: CustomerCreateResponse, accountDraft: CustomerCreateRequest) =>
       store.update((state) => ({ ...state, customer, accountDraft })),
-    setPizzaDraft: (pizzaDraft: PizzaSelection) => store.update((state) => ({ ...state, pizzaDraft })),
+    setPizzaDrafts: (pizzaDrafts: PizzaSelection[]) => store.update((state) => ({ ...state, pizzaDrafts })),
     setOrder: (order: OrderCreateResponse) => store.update((state) => ({ ...state, order })),
     setPayment: (payment: PaymentResponse) => store.update((state) => ({ ...state, payment })),
     setLatestStatus: (latestStatus: OrderStatusResponse) =>

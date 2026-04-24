@@ -2,11 +2,14 @@
   import type { MenuOption } from '$lib/menu';
 
   export let groupLabel: string;
+  export let groupName = '';
   export let description: string;
   export let options: MenuOption[] = [];
   export let multiple = false;
   export let selectedValue = '';
   export let selectedValues: string[] = [];
+
+  $: resolvedGroupName = groupName || groupLabel;
 
   function toggleValue(value: string, checked: boolean) {
     if (!multiple) {
@@ -28,11 +31,11 @@
 
   <div class="option-grid">
     {#each options as option}
-      <label class="option-card" for={`${groupLabel}-${option.value}`}>
+      <label class="option-card" for={`${resolvedGroupName}-${option.value}`}>
         <input
-          id={`${groupLabel}-${option.value}`}
+          id={`${resolvedGroupName}-${option.value}`}
           type={multiple ? 'checkbox' : 'radio'}
-          name={groupLabel}
+          name={resolvedGroupName}
           checked={multiple ? selectedValues.includes(option.value) : selectedValue === option.value}
           on:change={(event) => toggleValue(option.value, (event.currentTarget as HTMLInputElement).checked)}
         />

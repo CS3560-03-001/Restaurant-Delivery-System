@@ -68,6 +68,7 @@
       <div class="summary-strip">
         <strong>Current order</strong>
         <span>Order ID: {$flow.order.orderId}</span>
+        <span>Pizzas: {$flow.order.pizzas.length}</span>
         <span>Total: ${$flow.order.amount.toFixed(2)}</span>
       </div>
     {:else}

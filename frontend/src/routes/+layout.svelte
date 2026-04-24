@@ -8,7 +8,7 @@
     { href: '/account', label: 'Account', detail: 'Customer details and delivery address' },
     { href: '/order', label: 'Order', detail: 'Build your pizza selections' },
     { href: '/payment', label: 'Payment', detail: 'Review and submit payment' },
-    { href: '/status', label: 'Status', detail: 'Track the live delivery state' }
+    { href: '/status', label: 'Status', detail: 'Track delivery' }
   ];
 
   function isUnlocked(index: number, state: FlowState) {

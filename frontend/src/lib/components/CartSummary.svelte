@@ -2,34 +2,41 @@
   import type { PizzaSelection } from '$lib/contracts';
   import { menuLabels } from '$lib/menu';
 
-  export let pizza: PizzaSelection;
+  export let pizzas: PizzaSelection[] = [];
   export let amount = 0;
 
   const groups = ['crust', 'sauce', 'cheese', 'toppings'] as const;
 
   function displayItems(group: (typeof groups)[number]) {
-    if (group === 'toppings') {
-      return pizza.toppings.length ? pizza.toppings : ['None selected'];
-    }
+    return (pizza: PizzaSelection) => {
+      if (group === 'toppings') {
+        return pizza.toppings.length ? pizza.toppings : ['None selected'];
+      }
 
-    return [pizza[group] || 'Not selected'];
+      return [pizza[group] || 'Not selected'];
+    };
   }
 </script>
 
 <section>
   <div class="hero">
     <h3>Order summary</h3>
-    <p class="muted">Selections stay grouped by menu category so the order JSON stays predictable.</p>
+    <p class="muted">Each pizza stays grouped by menu source so the order JSON remains predictable.</p>
   </div>
 
-  {#each groups as group}
+  {#each pizzas as pizza, index}
     <div class="cart-group">
-      <h4>{menuLabels[group]}</h4>
-      <ul>
-        {#each displayItems(group) as item}
-          <li>{item}</li>
-        {/each}
-      </ul>
+      <h4>Pizza {index + 1}</h4>
+      {#each groups as group}
+        <div class="cart-subgroup">
+          <strong>{menuLabels[group]}</strong>
+          <ul>
+            {#each displayItems(group)(pizza) as item}
+              <li>{item}</li>
+            {/each}
+          </ul>
+        </div>
+      {/each}
     </div>
   {/each}
 

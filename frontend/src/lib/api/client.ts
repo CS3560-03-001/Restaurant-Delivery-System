@@ -1,4 +1,5 @@
 import type {
+  ApiErrorResponse,
   CustomerCreateRequest,
   CustomerCreateResponse,
   OrderCreateRequest,
@@ -18,6 +19,13 @@ async function request<T>(fetcher: typeof fetch, input: string, init?: RequestIn
   });
 
   if (!response.ok) {
+    const contentType = response.headers.get('content-type') ?? '';
+
+    if (contentType.includes('application/json')) {
+      const payload = (await response.json()) as Partial<ApiErrorResponse>;
+      throw new Error(payload.message || `Request failed with status ${response.status}`);
+    }
+
     const errorText = await response.text();
     throw new Error(errorText || `Request failed with status ${response.status}`);
   }

@@ -1,0 +1,16 @@
+INSERT INTO menu_options (option_id, menu_group, label, price, active, created_at, updated_at) VALUES
+('thin-crust', 'CRUST', 'Thin Crust', 8.50, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('hand-tossed', 'CRUST', 'Hand Tossed', 9.00, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('pan', 'CRUST', 'Pan Style', 9.50, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('classic-red', 'SAUCE', 'Classic Red', 1.50, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('garlic-white', 'SAUCE', 'Garlic White', 1.75, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('spicy-arrabbiata', 'SAUCE', 'Spicy Arrabbiata', 1.75, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('mozzarella', 'CHEESE', 'Mozzarella', 2.25, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('smoked-provolone', 'CHEESE', 'Smoked Provolone', 2.50, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('vegan-blend', 'CHEESE', 'Vegan Blend', 2.75, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('pepperoni', 'TOPPINGS', 'Pepperoni', 1.75, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('mushrooms', 'TOPPINGS', 'Mushrooms', 1.25, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('roasted-peppers', 'TOPPINGS', 'Roasted Peppers', 1.50, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('red-onion', 'TOPPINGS', 'Red Onion', 1.00, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('black-olives', 'TOPPINGS', 'Black Olives', 1.25, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('basil', 'TOPPINGS', 'Basil', 0.75, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

@@ -4,31 +4,37 @@
   import CartSummary from '$lib/components/CartSummary.svelte';
   import OptionGroup from '$lib/components/OptionGroup.svelte';
   import type { PizzaSelection } from '$lib/contracts';
-  import { menuOptions } from '$lib/menu';
-  import { flow, isPizzaReady } from '$lib/stores/flow';
+  import { calculatePizzaAmount, menuOptions } from '$lib/menu';
+  import { emptyPizzaSelection, flow, isPizzaReady } from '$lib/stores/flow';
   import { get } from 'svelte/store';
 
   const initialState = get(flow);
-  let pizza: PizzaSelection = {
-    ...initialState.pizzaDraft,
-    toppings: [...initialState.pizzaDraft.toppings]
-  };
+  let pizzas: PizzaSelection[] = initialState.pizzaDrafts.length
+    ? initialState.pizzaDrafts.map((pizza) => ({ ...pizza, toppings: [...pizza.toppings] }))
+    : [emptyPizzaSelection()];
 
   let submitting = false;
   let submitError = '';
 
-  $: flow.setPizzaDraft(pizza);
-  $: readyForCheckout = isPizzaReady(pizza);
-  $: customerReady = Boolean($flow.customer?.customerId);
-  $: total = Number((12 + pizza.toppings.length * 1.75).toFixed(2));
+  $: flow.setPizzaDrafts(pizzas.map((pizza) => ({ ...pizza, toppings: [...pizza.toppings] })));
+  $: readyForCheckout = pizzas.length > 0 && pizzas.every((pizza) => isPizzaReady(pizza));
+  $: total = Number(pizzas.reduce((sum, pizza) => sum + calculatePizzaAmount(pizza), 0).toFixed(2));
   $: orderPreview = JSON.stringify(
     {
       customerId: $flow.customer?.customerId ?? 'customer-id-required',
-      pizza
+      pizzas
     },
     null,
     2
   );
+
+  function addPizza() {
+    pizzas = [...pizzas, emptyPizzaSelection()];
+  }
+
+  function removePizza(index: number) {
+    pizzas = pizzas.filter((_, currentIndex) => currentIndex !== index);
+  }
 
   async function handleCheckout() {
     submitError = '';
@@ -48,7 +54,7 @@
     try {
       const order = await createOrder(fetch, {
         customerId: $flow.customer.customerId,
-        pizza
+        pizzas
       });
       flow.setOrder(order);
       await goto('/payment');
@@ -61,76 +67,85 @@
 </script>
 
 <svelte:head>
-  <title>Pizza Builder | Restaurant Delivery Demo</title>
+  <title>Build Order | Restaurant Delivery Prototype</title>
 </svelte:head>
 
 <div class="layout-grid">
   <section class="panel content-card">
     <div class="hero">
-      <h2>Pizza configuration</h2>
-      <p>Choose one crust, sauce, and cheese, then add any toppings you want.</p>
+      <h2>Build your order</h2>
+      <p>Each pizza keeps crust, sauce, and cheese as single-choice groups while toppings remain multi-select.</p>
     </div>
 
-    <OptionGroup
-      groupLabel="Crust"
-      description="Choose one base for the pizza."
-      options={menuOptions.crust}
-      bind:selectedValue={pizza.crust}
-    />
+    {#each pizzas as _pizza, index}
+      <div class="cart-group">
+        <div class="actions">
+          <h3>Pizza {index + 1}</h3>
+          {#if pizzas.length > 1}
+            <button class="secondary" type="button" on:click={() => removePizza(index)}>Remove pizza</button>
+          {/if}
+        </div>
 
-    <OptionGroup
-      groupLabel="Sauce"
-      description="Choose one sauce to anchor the flavor profile."
-      options={menuOptions.sauce}
-      bind:selectedValue={pizza.sauce}
-    />
+        <OptionGroup
+          groupLabel="Crust"
+          groupName={`pizza-${index}-crust`}
+          description="Choose one base for the pizza."
+          options={menuOptions.crust}
+          bind:selectedValue={pizzas[index].crust}
+        />
 
-    <OptionGroup
-      groupLabel="Cheese"
-      description="Choose one cheese option before checkout unlocks."
-      options={menuOptions.cheese}
-      bind:selectedValue={pizza.cheese}
-    />
+        <OptionGroup
+          groupLabel="Sauce"
+          groupName={`pizza-${index}-sauce`}
+          description="Choose one sauce to anchor the flavor profile."
+          options={menuOptions.sauce}
+          bind:selectedValue={pizzas[index].sauce}
+        />
 
-    <OptionGroup
-      groupLabel="Toppings"
-      description="Mix and match optional toppings."
-      options={menuOptions.toppings}
-      multiple={true}
-      bind:selectedValues={pizza.toppings}
-    />
+        <OptionGroup
+          groupLabel="Cheese"
+          groupName={`pizza-${index}-cheese`}
+          description="Choose one cheese option before checkout unlocks."
+          options={menuOptions.cheese}
+          bind:selectedValue={pizzas[index].cheese}
+        />
+
+        <OptionGroup
+          groupLabel="Toppings"
+          groupName={`pizza-${index}-toppings`}
+          description="Mix and match optional toppings."
+          options={menuOptions.toppings}
+          multiple={true}
+          bind:selectedValues={pizzas[index].toppings}
+        />
+      </div>
+    {/each}
 
     {#if submitError}
       <p class="error">{submitError}</p>
     {/if}
 
     <div class="actions">
-      <button
-        class="primary"
-        type="button"
-        on:click={handleCheckout}
-        disabled={!readyForCheckout || !customerReady || submitting}
-      >
-        {submitting ? 'Saving order...' : 'Save order and continue'}
+      <button class="secondary" type="button" on:click={addPizza}>Add another pizza</button>
+      <button class="primary" type="button" on:click={handleCheckout} disabled={!readyForCheckout || submitting}>
+        {submitting ? 'Submitting order...' : 'Continue to checkout'}
       </button>
       <small class="muted">
-        {#if !customerReady}
-          Complete the customer profile first.
-        {:else if readyForCheckout}
-          Your pizza is ready for checkout.
+        {#if readyForCheckout}
+          Every pizza has its required groups completed.
         {:else}
-          Select crust, sauce, and cheese to unlock payment.
+          Select crust, sauce, and cheese for every pizza to enable checkout.
         {/if}
       </small>
     </div>
   </section>
 
   <aside class="panel sidebar-card">
-    <CartSummary pizza={pizza} amount={total} />
+    <CartSummary pizzas={pizzas} amount={total} />
 
     <div class="summary-strip">
-      <strong>Order request preview</strong>
-      <small class="muted">The grouped contract keeps each pizza category distinct.</small>
+      <strong>Order JSON preview</strong>
+      <small class="muted">The grouped contract keeps each pizza distinct inside one order payload.</small>
       <pre class="code-block">{orderPreview}</pre>
     </div>
   </aside>

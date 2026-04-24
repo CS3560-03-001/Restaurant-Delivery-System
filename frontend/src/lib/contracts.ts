@@ -31,13 +31,13 @@ export interface PizzaSelection {
 
 export interface OrderCreateRequest {
   customerId: string;
-  pizza: PizzaSelection;
+  pizzas: PizzaSelection[];
 }
 
 export interface OrderCreateResponse {
   orderId: string;
   customerId: string;
-  pizza: PizzaSelection;
+  pizzas: PizzaSelection[];
   amount: number;
   currency: 'USD';
   status: string;
@@ -74,6 +74,16 @@ export interface OrderStatusResponse {
   etaLabel: string;
   driver?: DriverInfo;
   updatedAt: string;
+}
+
+export interface ApiErrorResponse {
+  timestamp: string;
+  status: number;
+  error: string;
+  code: string;
+  message: string;
+  path: string;
+  details: Record<string, string>;
 }
 
 export interface ContractExample<T> {
