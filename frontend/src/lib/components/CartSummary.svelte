@@ -18,8 +18,8 @@
 
 <section>
   <div class="hero">
-    <h3>Current Pizza</h3>
-    <p class="muted">Selections stay grouped by menu source so the order JSON stays predictable.</p>
+    <h3>Order summary</h3>
+    <p class="muted">Selections stay grouped by menu category so the order JSON stays predictable.</p>
   </div>
 
   {#each groups as group}

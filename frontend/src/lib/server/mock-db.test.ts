@@ -17,7 +17,14 @@ describe('mock delivery flow', () => {
       name: 'Jordan Lee',
       email: 'jordan@example.com',
       phone: '555-0101',
-      address: '17 Market Street'
+      address: {
+        streetAddress: '17 Market Street',
+        apartment: 'Apt 4B',
+        city: 'Austin',
+        state: 'TX',
+        zip: '78701',
+        country: 'United States'
+      }
     });
 
     const order = createOrderRecord({
@@ -32,7 +39,7 @@ describe('mock delivery flow', () => {
 
     const payment = createPaymentRecord({
       orderId: order.orderId,
-      paymentMethod: 'Mock Visa',
+      paymentMethod: 'Visa',
       amount: order.amount,
       billingName: 'Jordan Lee',
       cardLast4: '4242'
@@ -42,6 +49,7 @@ describe('mock delivery flow', () => {
     const fourthStatus = [1, 2, 3].reduce(() => getOrderStatus(order.orderId), firstStatus);
 
     expect(customer.profile.email).toBe('jordan@example.com');
+    expect(customer.profile.address.city).toBe('Austin');
     expect(order.checkoutReady).toBe(true);
     expect(payment.status).toBe('Accepted');
     expect(firstStatus.status).toBe('Preparing');

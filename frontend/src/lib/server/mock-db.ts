@@ -65,7 +65,7 @@ export function createCustomerRecord(request: CustomerCreateRequest): CustomerCr
   assertRequired(request.name, 'name');
   assertRequired(request.email, 'email');
   assertRequired(request.phone, 'phone');
-  assertRequired(request.address, 'address');
+  assertAddress(request.address);
 
   const customer: CustomerCreateResponse = {
     customerId: `cust-${customerCounter++}`,
@@ -181,7 +181,14 @@ export function buildContractExamples() {
         name: 'Jordan Lee',
         email: 'jordan@example.com',
         phone: '555-0101',
-        address: '17 Market Street'
+        address: {
+          streetAddress: '17 Market Street',
+          apartment: 'Apt 4B',
+          city: 'Austin',
+          state: 'TX',
+          zip: '78701',
+          country: 'United States'
+        }
       },
       response: {
         customerId: 'cust-1',
@@ -189,7 +196,14 @@ export function buildContractExamples() {
           name: 'Jordan Lee',
           email: 'jordan@example.com',
           phone: '555-0101',
-          address: '17 Market Street'
+          address: {
+            streetAddress: '17 Market Street',
+            apartment: 'Apt 4B',
+            city: 'Austin',
+            state: 'TX',
+            zip: '78701',
+            country: 'United States'
+          }
         },
         createdAt: '2026-04-23T22:15:00.000Z'
       }
@@ -217,7 +231,7 @@ export function buildContractExamples() {
       method: 'POST',
       request: {
         orderId: 'order-1',
-        paymentMethod: 'Mock Visa',
+        paymentMethod: 'Visa',
         amount: 15.5,
         billingName: 'Jordan Lee',
         cardLast4: '4242'
@@ -276,4 +290,16 @@ function assertRequired(value: string, fieldName: string) {
   if (!value || !value.trim()) {
     throw new Error(`Missing required field: ${fieldName}`);
   }
+}
+
+function assertAddress(address: CustomerCreateRequest['address']) {
+  if (!address || typeof address !== 'object') {
+    throw new Error('Missing required field: address');
+  }
+
+  assertRequired(address.streetAddress, 'address.streetAddress');
+  assertRequired(address.city, 'address.city');
+  assertRequired(address.state, 'address.state');
+  assertRequired(address.zip, 'address.zip');
+  assertRequired(address.country, 'address.country');
 }

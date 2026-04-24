@@ -1,31 +1,62 @@
 <script lang="ts">
   import '../app.css';
+  import { goto } from '$app/navigation';
   import { page } from '$app/state';
+  import { flow, type FlowState } from '$lib/stores/flow';
 
   const steps = [
-    { href: '/account', label: 'Account', detail: 'Create customer profile' },
-    { href: '/order', label: 'Order', detail: 'Build grouped pizza' },
-    { href: '/payment', label: 'Payment', detail: 'Submit mock checkout' },
-    { href: '/status', label: 'Status', detail: 'Poll delivery updates' }
+    { href: '/account', label: 'Account', detail: 'Customer details and delivery address' },
+    { href: '/order', label: 'Order', detail: 'Build your pizza selections' },
+    { href: '/payment', label: 'Payment', detail: 'Review and submit payment' },
+    { href: '/status', label: 'Status', detail: 'Track the live delivery state' }
   ];
+
+  function isUnlocked(index: number, state: FlowState) {
+    if (index === 0) {
+      return true;
+    }
+
+    if (index === 1) {
+      return Boolean(state.customer);
+    }
+
+    if (index === 2) {
+      return Boolean(state.order);
+    }
+
+    return Boolean(state.payment);
+  }
+
+  async function goToStep(href: string, unlocked: boolean) {
+    if (!unlocked) {
+      return;
+    }
+
+    await goto(href);
+  }
 </script>
 
 <div class="shell">
   <div class="hero">
-    <p class="muted">Restaurant delivery prototype</p>
-    <h1>Simple pizza ordering with stable JSON contracts.</h1>
-    <p>
-      The flow stays form-driven: capture customer details, build a pizza, submit mock payment,
-      then poll for status updates.
-    </p>
+    <p class="muted">Restaurant Delivery Form</p>
+    <h1>Place an Order</h1>
+    <p>Complete each form before moving onto the next.</p>
   </div>
 
   <nav class="step-nav" aria-label="Order workflow steps">
-    {#each steps as step}
-      <a class:active={page.url.pathname === step.href} class="step-link" href={step.href}>
+    {#each steps as step, index}
+      {@const unlocked = isUnlocked(index, $flow)}
+      <button
+        type="button"
+        class:active={page.url.pathname === step.href}
+        class:locked={!unlocked}
+        class="step-link"
+        disabled={!unlocked}
+        on:click={() => goToStep(step.href, unlocked)}
+      >
         <strong>{step.label}</strong>
         <span>{step.detail}</span>
-      </a>
+      </button>
     {/each}
   </nav>
 

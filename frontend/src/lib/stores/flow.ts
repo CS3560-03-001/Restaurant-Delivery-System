@@ -2,6 +2,7 @@ import { browser } from '$app/environment';
 import type {
   CustomerCreateRequest,
   CustomerCreateResponse,
+  DeliveryAddress,
   OrderCreateResponse,
   OrderStatusResponse,
   PaymentResponse,
@@ -27,19 +28,32 @@ export const emptyPizzaSelection = (): PizzaSelection => ({
   toppings: []
 });
 
-const defaultState: FlowState = {
-  accountDraft: {
-    name: '',
-    email: '',
-    phone: '',
-    address: ''
-  },
-  customer: null,
-  pizzaDraft: emptyPizzaSelection(),
-  order: null,
-  payment: null,
-  latestStatus: null
-};
+export const emptyDeliveryAddress = (): DeliveryAddress => ({
+  streetAddress: '',
+  apartment: '',
+  city: '',
+  state: '',
+  zip: '',
+  country: 'United States'
+});
+
+function createDefaultState(): FlowState {
+  return {
+    accountDraft: {
+      name: '',
+      email: '',
+      phone: '',
+      address: emptyDeliveryAddress()
+    },
+    customer: null,
+    pizzaDraft: emptyPizzaSelection(),
+    order: null,
+    payment: null,
+    latestStatus: null
+  };
+}
+
+const defaultState = createDefaultState();
 
 function createFlowStore() {
   const initial = browser ? readStoredState() : defaultState;
@@ -54,7 +68,7 @@ function createFlowStore() {
   return {
     subscribe: store.subscribe,
     update: store.update,
-    reset: () => store.set(defaultState),
+    reset: () => store.set(createDefaultState()),
     setAccountDraft: (accountDraft: CustomerCreateRequest) =>
       store.update((state) => ({ ...state, accountDraft })),
     setCustomer: (customer: CustomerCreateResponse, accountDraft: CustomerCreateRequest) =>
@@ -75,10 +89,53 @@ function readStoredState(): FlowState {
   }
 
   try {
-    return { ...defaultState, ...JSON.parse(raw) } as FlowState;
+    return normalizeStoredState(JSON.parse(raw));
   } catch {
-    return defaultState;
+    return createDefaultState();
   }
+}
+
+function normalizeStoredState(stored: Partial<FlowState>): FlowState {
+  const defaultStateSnapshot = createDefaultState();
+  const accountDraft = stored.accountDraft ?? defaultStateSnapshot.accountDraft;
+
+  return {
+    ...defaultStateSnapshot,
+    ...stored,
+    accountDraft: {
+      name: accountDraft.name ?? '',
+      email: accountDraft.email ?? '',
+      phone: accountDraft.phone ?? '',
+      address: normalizeAddress(accountDraft.address)
+    },
+    pizzaDraft: {
+      ...emptyPizzaSelection(),
+      ...(stored.pizzaDraft ?? {})
+    },
+    customer: stored.customer ?? null,
+    order: stored.order ?? null,
+    payment: stored.payment ?? null,
+    latestStatus: stored.latestStatus ?? null
+  };
+}
+
+function normalizeAddress(address: CustomerCreateRequest['address'] | string | undefined): DeliveryAddress {
+  if (typeof address === 'string') {
+    return {
+      ...emptyDeliveryAddress(),
+      streetAddress: address
+    };
+  }
+
+  return {
+    ...emptyDeliveryAddress(),
+    streetAddress: address?.streetAddress ?? '',
+    apartment: address?.apartment ?? '',
+    city: address?.city ?? '',
+    state: address?.state ?? '',
+    zip: address?.zip ?? '',
+    country: address?.country ?? 'United States'
+  };
 }
 
 export function isPizzaReady(selection: PizzaSelection) {

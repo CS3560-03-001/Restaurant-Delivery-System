@@ -73,15 +73,28 @@ button {
 }
 
 .step-link {
+  display: grid;
+  gap: 4px;
   padding: 10px 12px;
   border-radius: 0;
   background: #ffffff;
   border: 1px solid #d8dee6;
+  text-align: left;
+  color: inherit;
 }
 
 .step-link.active {
   border-color: #7b93aa;
   background: #eef3f8;
+}
+
+.step-link.locked {
+  filter: saturate(0.3);
+  opacity: 0.55;
+}
+
+.step-link:disabled {
+  cursor: not-allowed;
 }
 
 .step-link strong,
@@ -152,6 +165,17 @@ button {
 .field textarea {
   min-height: 96px;
   resize: vertical;
+}
+
+.address-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.address-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(120px, 0.8fr) minmax(130px, 0.9fr);
+  gap: 10px;
 }
 
 .field small,
@@ -322,6 +346,10 @@ button {
 
 @media (max-width: 560px) {
   .step-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .address-row {
     grid-template-columns: 1fr;
   }
 

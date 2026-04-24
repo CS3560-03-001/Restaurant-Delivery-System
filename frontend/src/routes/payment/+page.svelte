@@ -10,7 +10,7 @@
 
   let form: PaymentRequest = {
     orderId: initialState.order?.orderId ?? '',
-    paymentMethod: 'Mock Visa',
+    paymentMethod: 'Visa',
     amount: initialState.order?.amount ?? 0,
     billingName: initialState.customer?.profile.name ?? '',
     cardLast4: '4242'
@@ -20,17 +20,18 @@
   let submitting = false;
 
   $: paymentPreview = JSON.stringify(form, null, 2);
+  $: paymentReady = Boolean(form.orderId) && validatePayment();
 
   async function handleSubmit() {
     submitError = '';
 
     if (!form.orderId) {
-      submitError = 'Create an order before accessing payment.';
+      submitError = 'Complete the order step before payment.';
       return;
     }
 
-    if (!form.billingName || !form.cardLast4) {
-      submitError = 'Billing name and mock card digits are required.';
+    if (!validatePayment()) {
+      submitError = 'Enter a billing name and a 4-digit card suffix.';
       return;
     }
 
@@ -46,17 +47,21 @@
       submitting = false;
     }
   }
+
+  function validatePayment() {
+    return Boolean(form.billingName.trim()) && /^\d{4}$/.test(form.cardLast4.trim());
+  }
 </script>
 
 <svelte:head>
-  <title>Mock Payment | Restaurant Delivery Prototype</title>
+  <title>Payment Review | Restaurant Delivery Demo</title>
 </svelte:head>
 
 <div class="layout-grid">
   <section class="panel content-card">
     <div class="hero">
-      <h2>Submit mock payment</h2>
-      <p>The payment request includes the current order, amount, method, and billing identity.</p>
+      <h2>Payment details</h2>
+      <p>Review the total, confirm the billing name, and submit the checkout.</p>
     </div>
 
     {#if $flow.order}
@@ -66,36 +71,58 @@
         <span>Total: ${$flow.order.amount.toFixed(2)}</span>
       </div>
     {:else}
-      <p class="error">No order is available yet. Return to the order page first.</p>
+      <p class="error">No order is ready for payment yet. Complete the order step first.</p>
     {/if}
 
     <div class="field">
       <label for="paymentMethod">Payment method</label>
       <select id="paymentMethod" bind:value={form.paymentMethod}>
-        <option>Mock Visa</option>
-        <option>Mock Mastercard</option>
-        <option>Mock Cash</option>
+        <option>Visa</option>
+        <option>Mastercard</option>
+        <option>Cash</option>
       </select>
     </div>
 
-    <FormField id="billingName" label="Billing name" bind:value={form.billingName} required />
-    <FormField id="cardLast4" label="Card last 4" bind:value={form.cardLast4} required />
+    <FormField
+      id="billingName"
+      label="Billing name"
+      bind:value={form.billingName}
+      placeholder="Jordan Lee"
+      autocomplete="cc-name"
+      required
+    />
+    <FormField
+      id="cardLast4"
+      label="Card last 4"
+      bind:value={form.cardLast4}
+      placeholder="4242"
+      inputmode="numeric"
+      maxlength={4}
+      required
+    />
 
     {#if submitError}
       <p class="error">{submitError}</p>
     {/if}
 
     <div class="actions">
-      <button class="primary" type="button" on:click={handleSubmit} disabled={submitting || !$flow.order}>
-        {submitting ? 'Submitting payment...' : 'Pay and track order'}
+      <button class="primary" type="button" on:click={handleSubmit} disabled={submitting || !paymentReady}>
+        {submitting ? 'Submitting payment...' : 'Submit payment and continue'}
       </button>
+      <small class="muted">
+        {#if paymentReady}
+          Payment details are complete.
+        {:else}
+          Enter the billing name and a 4-digit card suffix to continue.
+        {/if}
+      </small>
     </div>
   </section>
 
   <aside class="panel sidebar-card">
     <div class="hero">
-      <h3>Payment JSON preview</h3>
-      <p class="muted">The frontend keeps the contract stable whether the backend is mocked or real.</p>
+      <h3>Payment request preview</h3>
+      <p class="muted">The frontend keeps the contract stable whether the backend is mocked or live.</p>
     </div>
 
     <pre class="code-block">{paymentPreview}</pre>

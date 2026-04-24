@@ -7,4 +7,4 @@
   });
 </script>
 
-<p class="muted">Redirecting to the account step.</p>
+<p class="muted">Opening the customer profile flow.</p>

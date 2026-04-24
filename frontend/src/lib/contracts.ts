@@ -1,10 +1,19 @@
 export type MenuGroup = 'crust' | 'sauce' | 'cheese' | 'toppings';
 
+export interface DeliveryAddress {
+  streetAddress: string;
+  apartment: string;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+}
+
 export interface CustomerCreateRequest {
   name: string;
   email: string;
   phone: string;
-  address: string;
+  address: DeliveryAddress;
 }
 
 export interface CustomerCreateResponse {

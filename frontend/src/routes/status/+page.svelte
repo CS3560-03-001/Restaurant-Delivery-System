@@ -48,14 +48,14 @@
 </script>
 
 <svelte:head>
-  <title>Order Status | Restaurant Delivery Prototype</title>
+  <title>Order Status | Restaurant Delivery Demo</title>
 </svelte:head>
 
 <div class="layout-grid">
   <section class="panel content-card">
     <div class="hero">
-      <h2>Track your order</h2>
-      <p>The status page refreshes on a fixed interval and only shows driver details once assigned.</p>
+      <h2>Delivery tracking</h2>
+      <p>The status view refreshes automatically and reveals driver details when they are available.</p>
     </div>
 
     {#if $flow.order}
@@ -82,8 +82,8 @@
 
   <aside class="panel sidebar-card">
     <div class="hero">
-      <h3>Status JSON preview</h3>
-      <p class="muted">The payload can progressively add driver details as delivery advances.</p>
+      <h3>Status payload preview</h3>
+      <p class="muted">The response can progressively add driver details as delivery advances.</p>
     </div>
 
     <pre class="code-block">{statusPreview}</pre>

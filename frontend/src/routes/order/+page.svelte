@@ -19,6 +19,7 @@
 
   $: flow.setPizzaDraft(pizza);
   $: readyForCheckout = isPizzaReady(pizza);
+  $: customerReady = Boolean($flow.customer?.customerId);
   $: total = Number((12 + pizza.toppings.length * 1.75).toFixed(2));
   $: orderPreview = JSON.stringify(
     {
@@ -33,7 +34,7 @@
     submitError = '';
 
     if (!$flow.customer?.customerId) {
-      submitError = 'Complete account creation before submitting an order.';
+      submitError = 'Complete the customer profile before saving an order.';
       return;
     }
 
@@ -60,14 +61,14 @@
 </script>
 
 <svelte:head>
-  <title>Build Pizza | Restaurant Delivery Prototype</title>
+  <title>Pizza Builder | Restaurant Delivery Demo</title>
 </svelte:head>
 
 <div class="layout-grid">
   <section class="panel content-card">
     <div class="hero">
-      <h2>Build your pizza</h2>
-      <p>Crust, sauce, and cheese are single-choice groups. Toppings stay multi-select.</p>
+      <h2>Pizza configuration</h2>
+      <p>Choose one crust, sauce, and cheese, then add any toppings you want.</p>
     </div>
 
     <OptionGroup
@@ -104,14 +105,21 @@
     {/if}
 
     <div class="actions">
-      <button class="primary" type="button" on:click={handleCheckout} disabled={!readyForCheckout || submitting}>
-        {submitting ? 'Submitting order...' : 'Continue to checkout'}
+      <button
+        class="primary"
+        type="button"
+        on:click={handleCheckout}
+        disabled={!readyForCheckout || !customerReady || submitting}
+      >
+        {submitting ? 'Saving order...' : 'Save order and continue'}
       </button>
       <small class="muted">
-        {#if readyForCheckout}
-          Required pizza groups are complete.
+        {#if !customerReady}
+          Complete the customer profile first.
+        {:else if readyForCheckout}
+          Your pizza is ready for checkout.
         {:else}
-          Select crust, sauce, and cheese to enable checkout.
+          Select crust, sauce, and cheese to unlock payment.
         {/if}
       </small>
     </div>
@@ -121,7 +129,7 @@
     <CartSummary pizza={pizza} amount={total} />
 
     <div class="summary-strip">
-      <strong>Order JSON preview</strong>
+      <strong>Order request preview</strong>
       <small class="muted">The grouped contract keeps each pizza category distinct.</small>
       <pre class="code-block">{orderPreview}</pre>
     </div>
