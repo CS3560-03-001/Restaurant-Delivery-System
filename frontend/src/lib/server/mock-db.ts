@@ -82,13 +82,13 @@ export function createOrderRecord(request: OrderCreateRequest): OrderCreateRespo
     throw new Error('Unknown customer for order request');
   }
 
-  validatePizza(request.pizza);
+  validatePizzas(request.pizzas);
 
   const order: OrderRecord = {
     orderId: `order-${orderCounter++}`,
     customerId: request.customerId,
-    pizza: request.pizza,
-    amount: calculateAmount(request.pizza),
+    pizzas: request.pizzas,
+    amount: calculateAmount(request.pizzas),
     currency: 'USD',
     status: 'Awaiting Payment',
     checkoutReady: true,
@@ -213,12 +213,12 @@ export function buildContractExamples() {
       method: 'POST',
       request: {
         customerId: 'cust-1',
-        pizza
+        pizzas: [pizza]
       },
       response: {
         orderId: 'order-1',
         customerId: 'cust-1',
-        pizza,
+        pizzas: [pizza],
         amount: 15.5,
         currency: 'USD',
         status: 'Awaiting Payment',
@@ -263,15 +263,19 @@ export function buildContractExamples() {
   };
 }
 
-function calculateAmount(pizza: PizzaSelection) {
-  return Number((12 + pizza.toppings.length * 1.75).toFixed(2));
+function calculateAmount(pizzas: PizzaSelection[]) {
+  return Number(
+    pizzas
+      .reduce((sum, pizza) => sum + 12 + pizza.toppings.length * 1.75, 0)
+      .toFixed(2)
+  );
 }
 
 function toOrderResponse(order: OrderRecord): OrderCreateResponse {
   return {
     orderId: order.orderId,
     customerId: order.customerId,
-    pizza: order.pizza,
+    pizzas: order.pizzas,
     amount: order.amount,
     currency: order.currency,
     status: order.status,
@@ -280,10 +284,16 @@ function toOrderResponse(order: OrderRecord): OrderCreateResponse {
   };
 }
 
-function validatePizza(pizza: PizzaSelection) {
-  assertRequired(pizza.crust, 'pizza.crust');
-  assertRequired(pizza.sauce, 'pizza.sauce');
-  assertRequired(pizza.cheese, 'pizza.cheese');
+function validatePizzas(pizzas: PizzaSelection[]) {
+  if (!Array.isArray(pizzas) || pizzas.length === 0) {
+    throw new Error('Missing required field: pizzas');
+  }
+
+  pizzas.forEach((pizza, index) => {
+    assertRequired(pizza.crust, `pizzas[${index}].crust`);
+    assertRequired(pizza.sauce, `pizzas[${index}].sauce`);
+    assertRequired(pizza.cheese, `pizzas[${index}].cheese`);
+  });
 }
 
 function assertRequired(value: string, fieldName: string) {

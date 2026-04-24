@@ -19,8 +19,26 @@
   let submitError = '';
   let submitting = false;
 
+  $: if (
+    $flow.order &&
+    (form.orderId !== $flow.order.orderId || form.amount !== $flow.order.amount)
+  ) {
+    form = {
+      ...form,
+      orderId: $flow.order.orderId,
+      amount: $flow.order.amount
+    };
+  }
+
+  $: if (!form.billingName && $flow.customer?.profile.name) {
+    form = {
+      ...form,
+      billingName: $flow.customer.profile.name
+    };
+  }
+
   $: paymentPreview = JSON.stringify(form, null, 2);
-  $: paymentReady = Boolean(form.orderId) && validatePayment();
+  $: paymentReady = Boolean(form.orderId) && form.amount > 0 && validatePayment();
 
   async function handleSubmit() {
     submitError = '';
@@ -69,7 +87,7 @@
         <strong>Current order</strong>
         <span>Order ID: {$flow.order.orderId}</span>
         <span>Pizzas: {$flow.order.pizzas.length}</span>
-        <span>Total: ${$flow.order.amount.toFixed(2)}</span>
+        <span>Backend total: ${$flow.order.amount.toFixed(2)}</span>
       </div>
     {:else}
       <p class="error">No order is ready for payment yet. Complete the order step first.</p>

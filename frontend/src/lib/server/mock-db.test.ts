@@ -29,12 +29,14 @@ describe('mock delivery flow', () => {
 
     const order = createOrderRecord({
       customerId: customer.customerId,
-      pizza: {
-        crust: 'hand-tossed',
-        sauce: 'classic-red',
-        cheese: 'mozzarella',
-        toppings: ['pepperoni', 'basil']
-      }
+      pizzas: [
+        {
+          crust: 'hand-tossed',
+          sauce: 'classic-red',
+          cheese: 'mozzarella',
+          toppings: ['pepperoni', 'basil']
+        }
+      ]
     });
 
     const payment = createPaymentRecord({
@@ -51,6 +53,7 @@ describe('mock delivery flow', () => {
     expect(customer.profile.email).toBe('jordan@example.com');
     expect(customer.profile.address.city).toBe('Austin');
     expect(order.checkoutReady).toBe(true);
+    expect(order.pizzas).toHaveLength(1);
     expect(payment.status).toBe('Accepted');
     expect(firstStatus.status).toBe('Preparing');
     expect(fourthStatus.driver?.name).toBe('Maya Patel');

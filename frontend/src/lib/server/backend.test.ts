@@ -50,16 +50,35 @@ describe('backend proxy helpers', () => {
     vi.stubGlobal(
       'fetch',
       vi.fn().mockResolvedValue(
-        new Response(JSON.stringify({ code: 'NOT_FOUND', message: 'Order not found' }), {
+        new Response(
+          JSON.stringify({
+            timestamp: '2026-04-24T00:00:00.000Z',
+            status: 404,
+            error: 'Not Found',
+            code: 'NOT_FOUND',
+            message: 'Order not found',
+            path: '/api/orders/missing/status',
+            details: { orderId: 'missing' }
+          }),
+          {
           status: 404,
           headers: { 'content-type': 'application/json' }
-        })
+          }
+        )
       )
     );
 
     const response = await forwardGetRequest('/api/orders/missing/status');
 
     expect(response.status).toBe(404);
-    expect(await response.json()).toEqual({ code: 'NOT_FOUND', message: 'Order not found' });
+    expect(await response.json()).toEqual({
+      timestamp: '2026-04-24T00:00:00.000Z',
+      status: 404,
+      error: 'Not Found',
+      code: 'NOT_FOUND',
+      message: 'Order not found',
+      path: '/api/orders/missing/status',
+      details: { orderId: 'missing' }
+    });
   });
 });

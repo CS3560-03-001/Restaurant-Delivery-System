@@ -12,6 +12,13 @@ import { writable } from 'svelte/store';
 
 const STORAGE_KEY = 'restaurant-delivery-flow';
 
+type LegacyStoredFlowState = Partial<FlowState> & {
+  pizzaDraft?: Partial<PizzaSelection>;
+  accountDraft?: Partial<CustomerCreateRequest> & {
+    address?: Partial<DeliveryAddress> | string;
+  };
+};
+
 export interface FlowState {
   accountDraft: CustomerCreateRequest;
   customer: CustomerCreateResponse | null;
@@ -21,6 +28,15 @@ export interface FlowState {
   latestStatus: OrderStatusResponse | null;
 }
 
+export const emptyDeliveryAddress = (): DeliveryAddress => ({
+  streetAddress: '',
+  apartment: '',
+  city: '',
+  state: '',
+  zip: '',
+  country: 'United States'
+});
+
 export const emptyPizzaSelection = (): PizzaSelection => ({
   crust: '',
   sauce: '',
@@ -28,22 +44,22 @@ export const emptyPizzaSelection = (): PizzaSelection => ({
   toppings: []
 });
 
-const defaultState: FlowState = {
+export const createDefaultState = (): FlowState => ({
   accountDraft: {
     name: '',
     email: '',
     phone: '',
-    address: ''
+    address: emptyDeliveryAddress()
   },
   customer: null,
   pizzaDrafts: [emptyPizzaSelection()],
   order: null,
   payment: null,
   latestStatus: null
-};
+});
 
 function createFlowStore() {
-  const initial = browser ? readStoredState() : defaultState;
+  const initial = browser ? readStoredState() : createDefaultState();
   const store = writable<FlowState>(initial);
 
   if (browser) {
@@ -72,33 +88,38 @@ function readStoredState(): FlowState {
   const raw = localStorage.getItem(STORAGE_KEY);
 
   if (!raw) {
-    return defaultState;
+    return createDefaultState();
   }
 
   try {
-    return normalizeStoredState(JSON.parse(raw));
+    return normalizeStoredState(JSON.parse(raw) as LegacyStoredFlowState);
   } catch {
     return createDefaultState();
   }
 }
 
-function normalizeStoredState(stored: Partial<FlowState>): FlowState {
+function normalizeStoredState(stored: LegacyStoredFlowState): FlowState {
   const defaultStateSnapshot = createDefaultState();
   const accountDraft = stored.accountDraft ?? defaultStateSnapshot.accountDraft;
+  const pizzaDrafts =
+    stored.pizzaDrafts?.length
+      ? stored.pizzaDrafts.map((selection) => normalizePizzaSelection(selection))
+      : stored.pizzaDraft
+        ? [normalizePizzaSelection(stored.pizzaDraft)]
+        : defaultStateSnapshot.pizzaDrafts.map((selection) => normalizePizzaSelection(selection));
+  const { pizzaDraft, pizzaDrafts: _pizzaDrafts, accountDraft: _accountDraft, ...rest } = stored;
 
   return {
     ...defaultStateSnapshot,
-    ...stored,
+    ...rest,
     accountDraft: {
+      ...defaultStateSnapshot.accountDraft,
       name: accountDraft.name ?? '',
       email: accountDraft.email ?? '',
       phone: accountDraft.phone ?? '',
       address: normalizeAddress(accountDraft.address)
     },
-    pizzaDraft: {
-      ...emptyPizzaSelection(),
-      ...(stored.pizzaDraft ?? {})
-    },
+    pizzaDrafts,
     customer: stored.customer ?? null,
     order: stored.order ?? null,
     payment: stored.payment ?? null,
@@ -106,7 +127,19 @@ function normalizeStoredState(stored: Partial<FlowState>): FlowState {
   };
 }
 
-function normalizeAddress(address: CustomerCreateRequest['address'] | string | undefined): DeliveryAddress {
+function normalizePizzaSelection(selection?: Partial<PizzaSelection>): PizzaSelection {
+  return {
+    ...emptyPizzaSelection(),
+    crust: selection?.crust ?? '',
+    sauce: selection?.sauce ?? '',
+    cheese: selection?.cheese ?? '',
+    toppings: selection?.toppings ? [...selection.toppings] : []
+  };
+}
+
+function normalizeAddress(
+  address: CustomerCreateRequest['address'] | Partial<DeliveryAddress> | string | undefined
+): DeliveryAddress {
   if (typeof address === 'string') {
     return {
       ...emptyDeliveryAddress(),
