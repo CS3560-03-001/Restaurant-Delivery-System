@@ -1,0 +1,91 @@
+<script lang="ts">
+  import { onDestroy, onMount } from 'svelte';
+  import { fetchOrderStatus } from '$lib/api/client';
+  import StatusCard from '$lib/components/StatusCard.svelte';
+  import { flow } from '$lib/stores/flow';
+
+  const POLL_INTERVAL_MS = 5000;
+
+  let loading = false;
+  let errorMessage = '';
+  let timer: ReturnType<typeof setInterval> | undefined;
+
+  async function refreshStatus() {
+    if (!$flow.order?.orderId) {
+      return;
+    }
+
+    loading = true;
+    errorMessage = '';
+
+    try {
+      const status = await fetchOrderStatus(fetch, $flow.order.orderId);
+      flow.setLatestStatus(status);
+    } catch (error) {
+      errorMessage = error instanceof Error ? error.message : 'Unable to fetch order status.';
+    } finally {
+      loading = false;
+    }
+  }
+
+  onMount(() => {
+    void refreshStatus();
+
+    if ($flow.order?.orderId) {
+      timer = setInterval(() => {
+        void refreshStatus();
+      }, POLL_INTERVAL_MS);
+    }
+  });
+
+  onDestroy(() => {
+    if (timer) {
+      clearInterval(timer);
+    }
+  });
+
+  $: statusPreview = JSON.stringify($flow.latestStatus, null, 2);
+</script>
+
+<svelte:head>
+  <title>Order Status | Restaurant Delivery Prototype</title>
+</svelte:head>
+
+<div class="layout-grid">
+  <section class="panel content-card">
+    <div class="hero">
+      <h2>Track your order</h2>
+      <p>The status page refreshes on a fixed interval and only shows driver details once assigned.</p>
+    </div>
+
+    {#if $flow.order}
+      <div class="summary-strip">
+        <strong>Tracking {$flow.order.orderId}</strong>
+        <span>Order total: ${$flow.order.amount.toFixed(2)}</span>
+      </div>
+    {:else}
+      <p class="error">No paid order is available to track yet.</p>
+    {/if}
+
+    <StatusCard status={$flow.latestStatus} pollingLabel="Polling every 5 seconds while this page stays open" />
+
+    {#if errorMessage}
+      <p class="error">{errorMessage}</p>
+    {/if}
+
+    <div class="actions">
+      <button class="secondary" type="button" on:click={refreshStatus} disabled={loading || !$flow.order}>
+        {loading ? 'Refreshing...' : 'Refresh now'}
+      </button>
+    </div>
+  </section>
+
+  <aside class="panel sidebar-card">
+    <div class="hero">
+      <h3>Status JSON preview</h3>
+      <p class="muted">The payload can progressively add driver details as delivery advances.</p>
+    </div>
+
+    <pre class="code-block">{statusPreview}</pre>
+  </aside>
+</div>

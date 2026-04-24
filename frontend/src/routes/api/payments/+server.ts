@@ -1,0 +1,12 @@
+import { createPaymentRecord } from '$lib/server/mock-db';
+import { json } from '@sveltejs/kit';
+
+export async function POST({ request }) {
+  const payload = await request.json();
+
+  try {
+    return json(createPaymentRecord(payload));
+  } catch (error) {
+    return json({ message: error instanceof Error ? error.message : 'Invalid payment request.' }, { status: 400 });
+  }
+}
