@@ -5,12 +5,33 @@ export function getBackendBaseUrl() {
 }
 
 export async function forwardJsonRequest(request: Request, path: string) {
+  const rawText = await request.text();
+  let bodyText = rawText;
+
+  if (path === '/api/customers') {
+    const body = JSON.parse(rawText);
+
+    const address =
+      typeof body.address === 'string'
+        ? body.address
+        : `${body.address?.streetAddress ?? ''}${body.address?.apartment ? `, ${body.address.apartment}` : ''}, ${body.address?.city ?? ''}, ${body.address?.state ?? ''} ${body.address?.zip ?? ''}, ${body.address?.country ?? ''}`.trim();
+
+    const fixedBody = {
+      name: body.name,
+      email: body.email,
+      phone: body.phone,
+      address
+    };
+
+    bodyText = JSON.stringify(fixedBody);
+  }
+
   const response = await fetch(`${getBackendBaseUrl()}${path}`, {
     method: request.method,
     headers: {
-      'content-type': request.headers.get('content-type') || 'application/json'
+      'content-type': 'application/json'
     },
-    body: await request.text()
+    body: bodyText
   });
 
   return toPassthroughResponse(response);
