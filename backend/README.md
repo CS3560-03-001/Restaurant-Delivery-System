@@ -25,6 +25,19 @@ mkdir -p .local/mariadb-data
 chmod +x mvnw
 ```
 
+## Root-level workflow
+
+From the repo root, the convenience scripts can manage the full local stack:
+
+```bash
+./dev-up.sh
+./smoke-test.sh
+./verify-builds.sh
+./dev-down.sh
+```
+
+`dev-up.sh` bootstraps missing local env files and backend runtime directories before starting MariaDB, the backend, and the frontend with prefixed logs.
+
 ## Start MariaDB
 
 From `backend/`:
