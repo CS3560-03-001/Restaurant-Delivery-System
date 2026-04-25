@@ -46,16 +46,20 @@ wait_for_mariadb 180
 
 BACKEND_LOG_FILE="$LOG_DIR/backend.log"
 FRONTEND_LOG_FILE="$LOG_DIR/frontend.log"
-BACKEND_TAIL_PID="$(start_prefixed_tail "$BACKEND_LOG_FILE" backend)"
-FRONTEND_TAIL_PID="$(start_prefixed_tail "$FRONTEND_LOG_FILE" frontend)"
+start_prefixed_tail "$BACKEND_LOG_FILE" backend
+BACKEND_TAIL_PID="$STARTED_PID"
+start_prefixed_tail "$FRONTEND_LOG_FILE" frontend
+FRONTEND_TAIL_PID="$STARTED_PID"
 
 log "startup" "Starting backend"
-BACKEND_PID="$(start_logged_command "$BACKEND_DIR" "$BACKEND_ENV_FILE" "$BACKEND_LOG_FILE" ./mvnw -Dmaven.repo.local=.m2/repository spring-boot:run)"
+start_logged_command "$BACKEND_DIR" "$BACKEND_ENV_FILE" "$BACKEND_LOG_FILE" ./mvnw -Dmaven.repo.local=.m2/repository spring-boot:run
+BACKEND_PID="$STARTED_PID"
 write_state
-wait_for_http "Backend" "http://127.0.0.1:${SERVER_PORT:-8080}/" 180
+wait_for_http "Backend" "http://127.0.0.1:${SERVER_PORT:-8080}/api/health" 180
 
 log "startup" "Starting frontend"
-FRONTEND_PID="$(start_logged_command "$FRONTEND_DIR" "$FRONTEND_ENV_FILE" "$FRONTEND_LOG_FILE" npm run dev -- --host 127.0.0.1)"
+start_logged_command "$FRONTEND_DIR" "$FRONTEND_ENV_FILE" "$FRONTEND_LOG_FILE" npm run dev -- --host 127.0.0.1
+FRONTEND_PID="$STARTED_PID"
 write_state
 wait_for_http "Frontend" "http://127.0.0.1:5173/" 180
 

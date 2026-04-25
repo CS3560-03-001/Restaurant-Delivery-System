@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BACKEND_DIR="$REPO_ROOT/backend"
 FRONTEND_DIR="$REPO_ROOT/frontend"
 BACKEND_COMPOSE_FILE="$BACKEND_DIR/compose.yml"
@@ -112,7 +112,7 @@ start_logged_command() {
     fi
     exec "$@"
   ' _ "$workdir" "$envfile" "$@" >"$logfile" 2>&1 &
-  printf '%s\n' "$!"
+  STARTED_PID="$!"
 }
 
 start_prefixed_tail() {
@@ -128,7 +128,7 @@ start_prefixed_tail() {
       printf "[%s] %s\n" "$prefix" "$line"
     done
   ' _ "$logfile" "$prefix" >&2 &
-  printf '%s\n' "$!"
+  STARTED_PID="$!"
 }
 
 wait_for_http() {
@@ -140,7 +140,7 @@ wait_for_http() {
   start_seconds="$(date +%s)"
   while true; do
     http_code="$(curl -sS -o /dev/null -w '%{http_code}' "$url" || true)"
-    if [ "$http_code" != "000" ] && [ -n "$http_code" ]; then
+    if [ -n "$http_code" ] && [ "$http_code" != "000" ] && [ "$http_code" -ge 200 ] && [ "$http_code" -lt 400 ]; then
       log "ready" "$label responded with HTTP $http_code"
       return 0
     fi
