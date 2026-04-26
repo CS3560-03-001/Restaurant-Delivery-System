@@ -1,0 +1,24 @@
+services:
+  mariadb:
+    image: mariadb:11
+    container_name: rds-backend-mariadb
+    restart: unless-stopped
+    ports:
+      - "${MARIADB_PORT:-3306}:3306"
+    environment:
+      MARIADB_DATABASE: ${MARIADB_DATABASE:-restaurant_delivery}
+      MARIADB_USER: ${DB_USERNAME:-restaurant}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-restaurant}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-restaurant-root}
+    volumes:
+      - ./.local/mariadb-data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mariadb-admin ping -h 127.0.0.1 -u root -p$$MARIADB_ROOT_PASSWORD --silent"
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s

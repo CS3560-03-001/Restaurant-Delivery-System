@@ -1,0 +1,239 @@
+<script lang="ts">
+  import { goto } from '$app/navigation';
+  import { submitPayment } from '$lib/api/client';
+  import FormField from '$lib/components/FormField.svelte';
+  import { flow } from '$lib/stores/flow';
+  import { authState, registeredUsers } from '$lib/stores/role';
+  import type { PaymentRequest, SavedPaymentMethod } from '$lib/contracts';
+  import { get } from 'svelte/store';
+
+  const initialState = get(flow);
+
+  $: currentUser = $authState.customer;
+  $: savedMethods = currentUser ? ($registeredUsers.Customer?.[currentUser]?.paymentMethods || []) : [];
+  
+  let useSavedMethod = false;
+  let selectedMethodId = '';
+  
+  $: if (savedMethods.length > 0 && !selectedMethodId) {
+    useSavedMethod = true;
+    selectedMethodId = savedMethods.find((m: any) => m.isDefault)?.id ?? savedMethods[0]?.id ?? '';
+  }
+
+  let form: PaymentRequest = {
+    orderId: initialState.order?.orderId ?? '',
+    paymentMethod: 'Visa',
+    amount: initialState.order?.amount ?? 0,
+    billingName: initialState.customer?.profile.name ?? '',
+    cardLast4: '4242'
+  };
+
+  let isDefault = false;
+  let submitError = '';
+  let submitting = false;
+
+  $: if (
+    $flow.order &&
+    (form.orderId !== $flow.order.orderId || form.amount !== $flow.order.amount)
+  ) {
+    form = {
+      ...form,
+      orderId: $flow.order.orderId,
+      amount: $flow.order.amount
+    };
+  }
+
+  $: if (!form.billingName && $flow.customer?.profile.name) {
+    form = {
+      ...form,
+      billingName: $flow.customer.profile.name
+    };
+  }
+
+  $: paymentReady = Boolean(form.orderId) && form.amount > 0 && (useSavedMethod ? !!selectedMethodId : validatePayment());
+
+  function generateId() {
+    return Math.random().toString(36).substr(2, 9);
+  }
+
+  async function handleSubmit() {
+    submitError = '';
+
+    if (!form.orderId) {
+      submitError = 'Complete the order step before payment.';
+      return;
+    }
+
+    if (!useSavedMethod && !validatePayment()) {
+      submitError = 'Enter a billing name and a 4-digit card suffix.';
+      return;
+    }
+
+    submitting = true;
+
+    try {
+      let finalPaymentReq = { ...form };
+
+      if (useSavedMethod) {
+        const selected = savedMethods.find((m: any) => m.id === selectedMethodId);
+        if (selected) {
+          finalPaymentReq.paymentMethod = selected.paymentMethod;
+          finalPaymentReq.billingName = selected.billingName;
+          finalPaymentReq.cardLast4 = selected.cardLast4;
+        }
+      } else {
+        const newMethod: SavedPaymentMethod = {
+          id: generateId(),
+          paymentMethod: form.paymentMethod,
+          billingName: form.billingName,
+          cardLast4: form.cardLast4,
+          isDefault
+        };
+
+        let updatedMethods = [...savedMethods];
+        if (isDefault) {
+          updatedMethods.forEach((m: any) => m.isDefault = false);
+        }
+        updatedMethods.push(newMethod);
+
+        if (currentUser) {
+          const userProfile = $registeredUsers.Customer[currentUser];
+          $registeredUsers = {
+            ...$registeredUsers,
+            Customer: {
+              ...$registeredUsers.Customer,
+              [currentUser]: {
+                ...userProfile,
+                paymentMethods: updatedMethods
+              }
+            }
+          };
+        }
+      }
+
+      const payment = await submitPayment(fetch, finalPaymentReq);
+      flow.setPayment(payment);
+      await goto('/status');
+    } catch (error) {
+      submitError = error instanceof Error ? error.message : 'Unable to submit payment.';
+    } finally {
+      submitting = false;
+    }
+  }
+
+  function validatePayment() {
+    return Boolean(form.billingName.trim()) && /^\d{4}$/.test(form.cardLast4.trim());
+  }
+</script>
+
+<svelte:head>
+  <title>Payment Review | Restaurant Delivery Demo</title>
+</svelte:head>
+
+<div class="layout-grid">
+  <section class="panel content-card">
+    <div class="hero">
+      <h2>Payment details</h2>
+      <p>Review the total, confirm the billing name, and submit the checkout.</p>
+    </div>
+
+    {#if $flow.order}
+      <div class="summary-strip">
+        <strong>Current order</strong>
+        <span>Order ID: {$flow.order.orderId}</span>
+        <span>Pizzas: {$flow.order.pizzas.length}</span>
+        <span>Backend total: ${$flow.order.amount.toFixed(2)}</span>
+      </div>
+    {:else}
+      <p class="error">No order is ready for payment yet. Complete the order step first.</p>
+    {/if}
+
+    {#if savedMethods.length > 0}
+      <div class="mode-toggle" aria-label="Payment method mode">
+        <button
+          class="mode-card"
+          class:active={useSavedMethod}
+          type="button"
+          aria-pressed={useSavedMethod}
+          on:click={() => (useSavedMethod = true)}
+        >
+          <strong>Saved method</strong>
+          <span>Reuse a stored payment option.</span>
+        </button>
+        <button
+          class="mode-card"
+          class:active={!useSavedMethod}
+          type="button"
+          aria-pressed={!useSavedMethod}
+          on:click={() => (useSavedMethod = false)}
+        >
+          <strong>New method</strong>
+          <span>Add payment details for this checkout.</span>
+        </button>
+      </div>
+    {/if}
+
+    {#if useSavedMethod && savedMethods.length > 0}
+      <div class="field">
+        <label for="savedMethod">Select Payment Method</label>
+        <select id="savedMethod" bind:value={selectedMethodId}>
+          {#each savedMethods as method}
+            <option value={method.id}>
+              {method.paymentMethod} ending in {method.cardLast4} ({method.billingName}) {method.isDefault ? '(Default)' : ''}
+            </option>
+          {/each}
+        </select>
+      </div>
+    {:else}
+      <div class="field">
+        <label for="paymentMethod">Payment method</label>
+        <select id="paymentMethod" bind:value={form.paymentMethod}>
+          <option>Visa</option>
+          <option>Mastercard</option>
+          <option>Cash</option>
+        </select>
+      </div>
+
+      <FormField
+        id="billingName"
+        label="Billing name"
+        bind:value={form.billingName}
+        placeholder="Jordan Lee"
+        autocomplete="cc-name"
+        required
+      />
+      <FormField
+        id="cardLast4"
+        label="Card last 4"
+        bind:value={form.cardLast4}
+        placeholder="4242"
+        inputmode="numeric"
+        maxlength={4}
+        required
+      />
+      <div class="field inline">
+        <label>
+          <input type="checkbox" bind:checked={isDefault} />
+          Set as default payment method
+        </label>
+      </div>
+    {/if}
+
+    {#if submitError}
+      <p class="error">{submitError}</p>
+    {/if}
+
+    <div class="actions">
+      <button class="primary" type="button" on:click={handleSubmit} disabled={submitting || !paymentReady}>
+        {submitting ? 'Submitting payment...' : 'Submit payment and continue'}
+      </button>
+      <small class="muted">
+        {#if paymentReady}
+          Payment details are complete.
+        {:else}
+          Enter the billing name and a 4-digit card suffix to continue.
+        {/if}
+      </small>
+    </div>
+  </section>
+</div>

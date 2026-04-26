@@ -1,0 +1,9 @@
+frontend/node_modules/
+frontend/.svelte-kit/
+frontend/build/
+backend/target/
+backend/.m2/
+backend/.local/
+backend/.env
+frontend/.env
+.vs/
