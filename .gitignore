@@ -6,3 +6,4 @@ backend/.m2/
 backend/.local/
 backend/.env
 frontend/.env
+.vs/
