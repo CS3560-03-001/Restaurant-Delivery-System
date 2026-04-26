@@ -61,7 +61,16 @@ When you are done:
 - Frontend: `http://localhost:5173`
 - Backend base URL: `http://localhost:8080`
 - Backend health: `http://localhost:8080/api/health`
+- Adminer: `http://localhost:8081`
 - MariaDB: `localhost:3306`
+
+## Fields for Adminer Connection
+
+- System: **MySQL / MariaDB**
+- Server: `mariadb`
+- Username: `restaurant`
+- Password: `restaurant`
+- Database: `restaurant_delivery`
 
 ## Browser Demo Walkthrough
 

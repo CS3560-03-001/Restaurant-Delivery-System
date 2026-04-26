@@ -35,7 +35,7 @@ source "$BACKEND_ENV_FILE"
 set +a
 
 log "startup" "Starting MariaDB"
-docker compose -f "$BACKEND_COMPOSE_FILE" up -d mariadb
+docker compose -f "$BACKEND_COMPOSE_FILE" up -d mariadb adminer
 wait_for_mariadb 180
 
 BACKEND_LOG_FILE="$LOG_DIR/backend.log"
