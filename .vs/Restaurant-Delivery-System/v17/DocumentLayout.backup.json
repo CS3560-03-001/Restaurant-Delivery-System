@@ -3,8 +3,80 @@
   "WorkspaceRootPath": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\start.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:start.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\contracts.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\lib\\contracts.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\order\\\u002Bpage.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\routes\\order\\\u002Bpage.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\app.css||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\app.css||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\components\\CartSummary.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\lib\\components\\CartSummary.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\payment\\\u002Bpage.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\routes\\payment\\\u002Bpage.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\status\\\u002Bpage.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\routes\\status\\\u002Bpage.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\\u002Bpage.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\routes\\\u002Bpage.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\account\\\u002Bpage.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\routes\\account\\\u002Bpage.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\stores\\flow.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\lib\\stores\\flow.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\stores\\role.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\lib\\stores\\role.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\\u002Blayout.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\routes\\\u002Blayout.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\cashier\\\u002Bpage.svelte||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\routes\\cashier\\\u002Bpage.svelte||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\cook\\\u002Bpage.svelte||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\routes\\cook\\\u002Bpage.svelte||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\driver\\\u002Bpage.svelte||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\routes\\driver\\\u002Bpage.svelte||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\server\\mock-db.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\lib\\server\\mock-db.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\components\\StatusCard.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\lib\\components\\StatusCard.svelte||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\start.sh||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:start.sh||{3B902123-F8A7-4915-9F01-361F908088D0}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,14 +95,247 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "start.ps1",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\start.ps1",
+              "RelativeDocumentMoniker": "start.ps1",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\start.ps1",
+              "RelativeToolTip": "start.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAmAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKISURBVDhPlVLdS1RBFP/dux/JrppKUVoISrRSbVGEBq4Z5ZPRk39A9FYPUQ89CUEv2WOC\u002BFRB9QcUPoQkBItUkAa\u002BpNZ\u002BGO2u3nbdVe/evevuzsydZmY/shehM/fMuefMnN/8zuFoEBIOh7m0\u002BwnnnPX39z/0\u002B/1PaiEVVFYCUEI4pYQzRpU6DlMqY9IuLCzwubk5llhP3lFJNdHlJoHkUl8NtG51XV0BIQShUEj/vrw6GY/Hb6qgEHXqOM6\u002BIFJs28b8/Ly86xUAL2vhvwzEVgXZ8984EzIycg1ng0H0BQLKr4tqoqiND18egqYJV\u002BjMu/fo7OpSvk0YvG4dLvFUhXI44j7hGtKGwW\u002BN3agW2ChB6PqGAV9bB1oCQUxveIHOHkwl3VjxdyN3vA/rh0/A1X0ShTJRjysAxphkrQAi0Rjgb8VyWUfcpoDLg/uXevDoQwTPI9t4Y5QQyxZgJBOkAbCXQc4uw\u002BQexPJlME3H7dkVdDV78HbsHJZWk1jL5pHezCG9kdr8B0BSkCzyxTLSjgcRqwKnrRWZHRuO7sLH1DZ2ShTRtAlqbsHKGJ8bAJTSBoMCZfhB3JiJb2EzmkDs7jBGX33Bs8VfOAgGZzsPapnIb\u002BVmGwD1ZEnhN/Xia7YEtruLIy1NuPJ6UXV\u002B6voZPBjshVe0Lp/NwNfanpK5brmZpinnRwEcE0n3Ojk8onkmaUGlVEKxQhBeXILf58Pj0258\u002B2TgQPuhhExRDCzLqvZArN5mDReabARdBYSaihjylzCgZREs/MRoB8HRbAzcyiGTSkRlrmJQLBZVCZpYVwcHlJUDVZ0r6dV9DafOX8Sa8RQvpieZzFXDMD4\u002BXp3X/5CJiQmRC/wBUOeA8MehIQsAAAAASUVORK5CYII=",
+              "WhenOpened": "2026-04-26T01:22:09.441Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "start.sh",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\start.sh",
+              "RelativeDocumentMoniker": "start.sh",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\start.sh",
+              "RelativeToolTip": "start.sh",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|",
+              "WhenOpened": "2026-04-26T01:20:49.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "StatusCard.svelte",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\components\\StatusCard.svelte",
+              "RelativeDocumentMoniker": "frontend\\src\\lib\\components\\StatusCard.svelte",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\components\\StatusCard.svelte",
+              "RelativeToolTip": "frontend\\src\\lib\\components\\StatusCard.svelte",
+              "ViewState": "AgIAACoAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-26T01:18:16.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "mock-db.ts",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\server\\mock-db.ts",
+              "RelativeDocumentMoniker": "frontend\\src\\lib\\server\\mock-db.ts",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\server\\mock-db.ts",
+              "RelativeToolTip": "frontend\\src\\lib\\server\\mock-db.ts",
+              "ViewState": "AgIAAEQBAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-26T01:18:02.507Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "\u002Bpage.svelte",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\driver\\\u002Bpage.svelte",
+              "RelativeDocumentMoniker": "frontend\\src\\routes\\driver\\\u002Bpage.svelte",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\driver\\\u002Bpage.svelte",
+              "RelativeToolTip": "frontend\\src\\routes\\driver\\\u002Bpage.svelte",
+              "ViewState": "AgIAAH4AAAAAAAAAAABBwH8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-26T01:13:20.503Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "\u002Bpage.svelte",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\cook\\\u002Bpage.svelte",
+              "RelativeDocumentMoniker": "frontend\\src\\routes\\cook\\\u002Bpage.svelte",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\cook\\\u002Bpage.svelte",
+              "RelativeToolTip": "frontend\\src\\routes\\cook\\\u002Bpage.svelte",
+              "ViewState": "AgIAAFkAAAAAAAAAAABBwFoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-26T01:13:15.723Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "\u002Bpage.svelte",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\cashier\\\u002Bpage.svelte",
+              "RelativeDocumentMoniker": "frontend\\src\\routes\\cashier\\\u002Bpage.svelte",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\cashier\\\u002Bpage.svelte",
+              "RelativeToolTip": "frontend\\src\\routes\\cashier\\\u002Bpage.svelte",
+              "ViewState": "AgIAAFYAAAAAAAAAAABBwFcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-26T01:13:08.225Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "\u002Blayout.svelte",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\\u002Blayout.svelte",
+              "RelativeDocumentMoniker": "frontend\\src\\routes\\\u002Blayout.svelte",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\\u002Blayout.svelte",
+              "RelativeToolTip": "frontend\\src\\routes\\\u002Blayout.svelte",
+              "ViewState": "AgIAAGYAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-26T01:12:47.431Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "role.ts",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\stores\\role.ts",
+              "RelativeDocumentMoniker": "frontend\\src\\lib\\stores\\role.ts",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\stores\\role.ts",
+              "RelativeToolTip": "frontend\\src\\lib\\stores\\role.ts",
+              "ViewState": "AgIAABoAAAAAAAAAAIBJwBwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-26T01:12:37.608Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "flow.ts",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\stores\\flow.ts",
+              "RelativeDocumentMoniker": "frontend\\src\\lib\\stores\\flow.ts",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\stores\\flow.ts",
+              "RelativeToolTip": "frontend\\src\\lib\\stores\\flow.ts",
+              "ViewState": "AgIAAKgAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-26T01:07:42.363Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "contracts.ts",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\contracts.ts",
+              "RelativeDocumentMoniker": "frontend\\src\\lib\\contracts.ts",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\contracts.ts",
+              "RelativeToolTip": "frontend\\src\\lib\\contracts.ts",
+              "ViewState": "AgIAAEwAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-26T01:07:32.399Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "\u002Bpage.svelte",
               "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\account\\\u002Bpage.svelte",
               "RelativeDocumentMoniker": "frontend\\src\\routes\\account\\\u002Bpage.svelte",
               "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\account\\\u002Bpage.svelte",
               "RelativeToolTip": "frontend\\src\\routes\\account\\\u002Bpage.svelte",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAhwCAAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAIAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-04-26T00:46:40.57Z",
+              "WhenOpened": "2026-04-26T01:05:02.056Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "\u002Bpage.svelte",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\\u002Bpage.svelte",
+              "RelativeDocumentMoniker": "frontend\\src\\routes\\\u002Bpage.svelte",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\\u002Bpage.svelte",
+              "RelativeToolTip": "frontend\\src\\routes\\\u002Bpage.svelte",
+              "ViewState": "AgIAAAUAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-26T01:05:01.917Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "\u002Bpage.svelte",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\status\\\u002Bpage.svelte",
+              "RelativeDocumentMoniker": "frontend\\src\\routes\\status\\\u002Bpage.svelte",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\status\\\u002Bpage.svelte",
+              "RelativeToolTip": "frontend\\src\\routes\\status\\\u002Bpage.svelte",
+              "ViewState": "AgIAACwAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-26T01:00:33.688Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "\u002Bpage.svelte",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\payment\\\u002Bpage.svelte",
+              "RelativeDocumentMoniker": "frontend\\src\\routes\\payment\\\u002Bpage.svelte",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\payment\\\u002Bpage.svelte",
+              "RelativeToolTip": "frontend\\src\\routes\\payment\\\u002Bpage.svelte",
+              "ViewState": "AgIAAM4AAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-26T01:00:33.612Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "\u002Bpage.svelte",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\order\\\u002Bpage.svelte",
+              "RelativeDocumentMoniker": "frontend\\src\\routes\\order\\\u002Bpage.svelte",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\routes\\order\\\u002Bpage.svelte",
+              "RelativeToolTip": "frontend\\src\\routes\\order\\\u002Bpage.svelte",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-26T01:00:23.489Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CartSummary.svelte",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\components\\CartSummary.svelte",
+              "RelativeDocumentMoniker": "frontend\\src\\lib\\components\\CartSummary.svelte",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\lib\\components\\CartSummary.svelte",
+              "RelativeToolTip": "frontend\\src\\lib\\components\\CartSummary.svelte",
+              "ViewState": "AgIAABcAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-26T01:00:13.937Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "app.css",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\app.css",
+              "RelativeDocumentMoniker": "frontend\\src\\app.css",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\app.css",
+              "RelativeToolTip": "frontend\\src\\app.css",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-26T01:00:08.368Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "app.css",
+              "DocumentMoniker": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\app.css",
+              "RelativeDocumentMoniker": "frontend\\src\\app.css",
+              "ToolTip": "C:\\Users\\anton\\OneDrive\\Desktop\\Restaurant-Delivery-System\\frontend\\src\\app.css",
+              "RelativeToolTip": "frontend\\src\\app.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-26T01:00:07.793Z",
               "EditorCaption": ""
             }
           ]

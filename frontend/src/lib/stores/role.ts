@@ -3,9 +3,16 @@ import { browser } from '$app/environment';
 
 const STORAGE_KEY = 'restaurant-delivery-role';
 const LOGIN_KEY = 'restaurant-delivery-auth';
+const USERS_KEY = 'restaurant-delivery-users';
 
 const initialRole = browser ? (localStorage.getItem(STORAGE_KEY) || 'Customer') : 'Customer';
 let initialAuth: Record<string, string> = {};
+let initialUsers: Record<string, Record<string, any>> = {
+  Customer: {},
+  Cashier: {},
+  Cook: {},
+  Driver: {}
+};
 
 if (browser) {
   try {
@@ -13,10 +20,19 @@ if (browser) {
   } catch {
     initialAuth = {};
   }
+  try {
+    const storedUsers = localStorage.getItem(USERS_KEY);
+    if (storedUsers) {
+      initialUsers = JSON.parse(storedUsers);
+    }
+  } catch {
+    // fallback to default
+  }
 }
 
 export const role = writable<string>(initialRole);
 export const authState = writable<Record<string, string>>(initialAuth);
+export const registeredUsers = writable<Record<string, Record<string, any>>>(initialUsers);
 
 if (browser) {
   role.subscribe((val) => {
@@ -24,5 +40,8 @@ if (browser) {
   });
   authState.subscribe((val) => {
     localStorage.setItem(LOGIN_KEY, JSON.stringify(val));
+  });
+  registeredUsers.subscribe((val) => {
+    localStorage.setItem(USERS_KEY, JSON.stringify(val));
   });
 }

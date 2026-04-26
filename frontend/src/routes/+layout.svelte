@@ -3,10 +3,9 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/state';
   import { flow, type FlowState } from '$lib/stores/flow';
-  import { role } from '$lib/stores/role';
+  import { role, authState, registeredUsers } from '$lib/stores/role';
 
   const steps = [
-    { href: '/account', label: 'Account', detail: 'Customer details and delivery address' },
     { href: '/order', label: 'Order', detail: 'Build your pizza selections' },
     { href: '/payment', label: 'Payment', detail: 'Review and submit payment' },
     { href: '/status', label: 'Status', detail: 'Track delivery' }
@@ -18,10 +17,6 @@
     }
 
     if (index === 1) {
-      return Boolean(state.customer);
-    }
-
-    if (index === 2) {
       return Boolean(state.order);
     }
 
@@ -49,6 +44,70 @@
         goto('/order');
     }
   }
+
+  let isSignup = false;
+  let username = '';
+  let password = '';
+  let email = '';
+  let phone = '';
+  let authError = '';
+
+  $: if ($authState.customer) {
+    const users = $registeredUsers.Customer || {};
+    const currentUserObj = users[$authState.customer];
+    if (currentUserObj && currentUserObj.flowState) {
+      // Sync it locally but only if it's vastly different or we just logged in?
+      // Actually doing it purely on login is safer to avoid circular updates.
+    }
+  }
+
+  function handleAuth() {
+    authError = '';
+    const users = $registeredUsers.Customer || {};
+    const un = username.trim();
+
+    if (isSignup) {
+      if (users[un]) {
+        authError = 'Username already exists.';
+        return;
+      }
+      if (!email.trim() || !phone.trim() || !un || !password.trim()) {
+        authError = 'All fields are required to sign up.';
+        return;
+      }
+      const initialFlow = flow.exportDefaultState();
+      $registeredUsers = {
+        ...$registeredUsers,
+        Customer: { ...users, [un]: { password, email, phone, flowState: initialFlow } }
+      };
+      $authState = { ...$authState, customer: un };
+      flow.overwriteState(initialFlow);
+    } else {
+      const userObj = users[un];
+      const isString = typeof userObj === 'string';
+      const actualPassword = isString ? userObj : userObj?.password;
+
+      if (userObj && actualPassword === password) {
+        $authState = { ...$authState, customer: un };
+        if (!isString && userObj.flowState) {
+          flow.overwriteState(userObj.flowState);
+        } else {
+          flow.reset();
+        }
+      } else {
+        authError = 'Invalid credentials or user does not exist.';
+      }
+    }
+  }
+
+  function handleLogout() {
+    $authState = { ...$authState, customer: '' };
+    username = '';
+    password = '';
+    email = '';
+    phone = '';
+    flow.reset();
+  }
 </script>
 
 <div class="shell">
@@ -63,31 +122,80 @@
   </div>
 
   {#if $role === 'Customer'}
-    <div class="hero">
-      <p class="muted">Restaurant Delivery Form</p>
-      <h1>Place an Order</h1>
-      <p>Complete each form before moving onto the next.</p>
-    </div>
+    {#if !$authState.customer}
+      <div class="panel content-card">
+        <div class="hero">
+          <h2>Customer Login</h2>
+          <p>Please log in or sign up to place an order.</p>
+        </div>
+        <div class="field">
+          <label>
+            <input type="radio" bind:group={isSignup} value={false} /> Log In
+          </label>
+          <label style="margin-left: 1rem;">
+            <input type="radio" bind:group={isSignup} value={true} /> Sign Up
+          </label>
+        </div>
+        <div class="field">
+          <label for="username">Username</label>
+          <input id="username" type="text" bind:value={username} placeholder="e.g. jordanlee" />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" bind:value={password} />
+        </div>
+        {#if isSignup}
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" bind:value={email} placeholder="e.g. jordan@example.com" />
+          </div>
+          <div class="field">
+            <label for="phone">Phone Number</label>
+            <input id="phone" type="tel" bind:value={phone} placeholder="e.g. 555-0100" />
+          </div>
+        {/if}
+        {#if authError}
+          <p class="error">{authError}</p>
+        {/if}
+        <div class="actions">
+          <button class="primary" type="button" on:click={handleAuth} disabled={!username.trim() || !password.trim() || (isSignup && (!email.trim() || !phone.trim()))}>
+            {isSignup ? 'Sign Up' : 'Log In'}
+          </button>
+        </div>
+      </div>
+    {:else}
+      <div class="hero">
+        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 1rem;">
+          <p class="muted" style="margin: 0;">Logged in as: <strong>{$authState.customer}</strong></p>
+          <button class="secondary" style="padding: 2px 8px; font-size: 0.8em;" on:click={() => goto('/account')}>Account</button>
+          <button class="secondary" style="padding: 2px 8px; font-size: 0.8em;" on:click={handleLogout}>Log out</button>
+        </div>
+        <h1>Place an Order</h1>
+        <p>Complete each form before moving onto the next.</p>
+      </div>
 
-    <nav class="step-nav" aria-label="Order workflow steps">
-      {#each steps as step, index}
-        {@const unlocked = isUnlocked(index, $flow)}
-        <button
-          type="button"
-          class:active={page.url.pathname === step.href}
-          class:locked={!unlocked}
-          class="step-link"
-          disabled={!unlocked}
-          on:click={() => goToStep(step.href, unlocked)}
-        >
-          <strong>{step.label}</strong>
-          <span>{step.detail}</span>
-        </button>
-      {/each}
-    </nav>
+      <nav class="step-nav" aria-label="Order workflow steps">
+        {#each steps as step, index}
+          {@const unlocked = isUnlocked(index, $flow)}
+          <button
+            type="button"
+            class:active={page.url.pathname === step.href}
+            class:locked={!unlocked}
+            class="step-link"
+            disabled={!unlocked}
+            on:click={() => goToStep(step.href, unlocked)}
+          >
+            <strong>{step.label}</strong>
+            <span>{step.detail}</span>
+          </button>
+        {/each}
+      </nav>
+
+      <slot />
+    {/if}
+  {:else}
+    <slot />
   {/if}
-
-  <slot />
 </div>
 
 <style>

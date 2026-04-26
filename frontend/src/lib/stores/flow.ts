@@ -10,6 +10,7 @@ import type {
   SavedPaymentMethod
 } from '$lib/contracts';
 import { writable } from 'svelte/store';
+import { authState, registeredUsers, role } from '$lib/stores/role';
 
 const STORAGE_KEY = 'restaurant-delivery-flow';
 
@@ -68,6 +69,24 @@ function createFlowStore() {
   if (browser) {
     store.subscribe((value) => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+      
+      // Sync to user profile if logged in
+      const currentAuthStr = localStorage.getItem('restaurant-delivery-auth');
+      const currentUsersStr = localStorage.getItem('restaurant-delivery-users');
+      if (currentAuthStr && currentUsersStr) {
+        try {
+          const aS = JSON.parse(currentAuthStr);
+          const rU = JSON.parse(currentUsersStr);
+          if (aS.customer && rU.Customer[aS.customer]) {
+             if (typeof rU.Customer[aS.customer] === 'object') {
+               rU.Customer[aS.customer].flowState = value;
+               registeredUsers.set(rU);
+             }
+          }
+        } catch {
+          // ignore parsing error
+        }
+      }
     });
   }
 
@@ -75,6 +94,8 @@ function createFlowStore() {
     subscribe: store.subscribe,
     update: store.update,
     reset: () => store.set(createDefaultState()),
+    exportDefaultState: () => createDefaultState(),
+    overwriteState: (newState: FlowState) => store.set(normalizeStoredState(newState)),
     setAccountDraft: (accountDraft: CustomerCreateRequest) =>
       store.update((state) => ({ ...state, accountDraft })),
     setCustomer: (customer: CustomerCreateResponse, accountDraft: CustomerCreateRequest) =>

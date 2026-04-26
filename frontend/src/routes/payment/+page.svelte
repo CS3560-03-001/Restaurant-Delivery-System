@@ -3,15 +3,22 @@
   import { submitPayment } from '$lib/api/client';
   import FormField from '$lib/components/FormField.svelte';
   import { flow } from '$lib/stores/flow';
+  import { authState, registeredUsers } from '$lib/stores/role';
   import type { PaymentRequest, SavedPaymentMethod } from '$lib/contracts';
   import { get } from 'svelte/store';
 
   const initialState = get(flow);
 
-  let savedMethods = initialState.savedPaymentMethods;
+  $: currentUser = $authState.customer;
+  $: savedMethods = currentUser ? ($registeredUsers.Customer?.[currentUser]?.paymentMethods || []) : [];
   
-  let useSavedMethod = savedMethods.length > 0;
-  let selectedMethodId = savedMethods.find(m => m.isDefault)?.id ?? savedMethods[0]?.id ?? '';
+  let useSavedMethod = false;
+  let selectedMethodId = '';
+  
+  $: if (savedMethods.length > 0 && !selectedMethodId) {
+    useSavedMethod = true;
+    selectedMethodId = savedMethods.find((m: any) => m.isDefault)?.id ?? savedMethods[0]?.id ?? '';
+  }
 
   let form: PaymentRequest = {
     orderId: initialState.order?.orderId ?? '',
@@ -68,7 +75,7 @@
       let finalPaymentReq = { ...form };
 
       if (useSavedMethod) {
-        const selected = savedMethods.find(m => m.id === selectedMethodId);
+        const selected = savedMethods.find((m: any) => m.id === selectedMethodId);
         if (selected) {
           finalPaymentReq.paymentMethod = selected.paymentMethod;
           finalPaymentReq.billingName = selected.billingName;
@@ -83,12 +90,25 @@
           isDefault
         };
 
+        let updatedMethods = [...savedMethods];
         if (isDefault) {
-          savedMethods.forEach(m => m.isDefault = false);
+          updatedMethods.forEach((m: any) => m.isDefault = false);
         }
+        updatedMethods.push(newMethod);
 
-        savedMethods = [...savedMethods, newMethod];
-        flow.setSavedPaymentMethods(savedMethods);
+        if (currentUser) {
+          const userProfile = $registeredUsers.Customer[currentUser];
+          $registeredUsers = {
+            ...$registeredUsers,
+            Customer: {
+              ...$registeredUsers.Customer,
+              [currentUser]: {
+                ...userProfile,
+                paymentMethods: updatedMethods
+              }
+            }
+          };
+        }
       }
 
       const payment = await submitPayment(fetch, finalPaymentReq);

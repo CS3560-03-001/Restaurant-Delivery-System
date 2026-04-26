@@ -37,7 +37,7 @@
     }
 
     if (!$flow.customer?.customerId) {
-      await goto('/account');
+      submitError = 'Please click "Account" at the top left to complete your profile before checkout.';
       return;
     }
 
