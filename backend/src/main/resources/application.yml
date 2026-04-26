@@ -22,3 +22,4 @@ server:
 
 app:
   frontend-origin: ${FRONTEND_ORIGIN:http://localhost:5173}
+  demo-seed-data: ${DEMO_SEED_DATA:false}

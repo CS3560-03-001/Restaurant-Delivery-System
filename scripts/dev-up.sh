@@ -42,7 +42,7 @@ BACKEND_LOG_FILE="$LOG_DIR/backend.log"
 FRONTEND_LOG_FILE="$LOG_DIR/frontend.log"
 
 log "startup" "Starting backend"
-start_logged_command "$BACKEND_DIR" "$BACKEND_ENV_FILE" "$BACKEND_LOG_FILE" backend env SPRING_OUTPUT_ANSI_ENABLED=always ./mvnw -Dmaven.repo.local=.m2/repository spring-boot:run
+start_logged_command "$BACKEND_DIR" "$BACKEND_ENV_FILE" "$BACKEND_LOG_FILE" backend env DEMO_SEED_DATA="${DEMO_SEED_DATA:-true}" SPRING_OUTPUT_ANSI_ENABLED=always ./mvnw -Dmaven.repo.local=.m2/repository spring-boot:run
 BACKEND_PID="$STARTED_PID"
 write_state
 wait_for_http "Backend" "http://127.0.0.1:${SERVER_PORT:-8080}/api/health" 180 health

@@ -36,7 +36,7 @@ From the repo root, the convenience scripts can manage the full local stack:
 ./scripts/dev-down.sh
 ```
 
-`scripts/dev-up.sh` bootstraps missing local env files and backend runtime directories before starting MariaDB, the backend, and the frontend with prefixed logs.
+`scripts/dev-up.sh` bootstraps missing local env files and backend runtime directories before starting MariaDB, the backend, and the frontend with prefixed logs. The script starts the backend with local demo staff seeding enabled by default; set `DEMO_SEED_DATA=false` in `backend/.env` when you need a startup with no demo staff side effects.
 
 ## Start MariaDB
 
@@ -61,6 +61,16 @@ set +a
 ```
 
 On first run, `./mvnw` downloads Maven into the wrapper cache. Spring Boot then connects to MariaDB and Flyway applies the existing schema and seed migrations.
+
+## Local demo staff seed data
+
+When `DEMO_SEED_DATA=true`, backend startup seeds prototype-only restaurant staff records after Flyway has created the schema:
+
+- three active cashiers: `demo-cashier-1` through `demo-cashier-3`
+- three active cooks: `demo-cook-1` through `demo-cook-3`
+- three active drivers: `demo-driver-1` through `demo-driver-3`, each with vehicle display details
+
+The seed is idempotent: repeated local starts update the same stable IDs instead of inserting duplicates. The frontend also preloads those same staff IDs as local demo logins using the shared password `demo`, so the cashier, cook, and driver pages can be demonstrated without manual browser setup. These records are for local demonstrations only and are not production staff management, scheduling, permissions, or payroll data. Manual delivery assignment can reference a seeded driver by `demoDriverId` while still accepting explicitly supplied driver details for prototype flexibility.
 
 ## Run tests
 

@@ -7,6 +7,8 @@ import com.restaurantdelivery.backend.api.dto.OrderCreateResponse;
 import com.restaurantdelivery.backend.api.dto.OrderStatusResponse;
 import com.restaurantdelivery.backend.api.dto.PizzaSelectionRequest;
 import com.restaurantdelivery.backend.domain.OrderStatus;
+import com.restaurantdelivery.backend.domain.StaffRole;
+import com.restaurantdelivery.backend.exception.BadRequestException;
 import com.restaurantdelivery.backend.exception.InvalidStateException;
 import com.restaurantdelivery.backend.exception.NotFoundException;
 import com.restaurantdelivery.backend.persistence.entity.CustomerEntity;
@@ -14,9 +16,11 @@ import com.restaurantdelivery.backend.persistence.entity.DeliveryAssignmentEntit
 import com.restaurantdelivery.backend.persistence.entity.OrderEntity;
 import com.restaurantdelivery.backend.persistence.entity.OrderItemEntity;
 import com.restaurantdelivery.backend.persistence.entity.OrderItemToppingEntity;
+import com.restaurantdelivery.backend.persistence.entity.StaffMemberEntity;
 import com.restaurantdelivery.backend.persistence.repository.CustomerRepository;
 import com.restaurantdelivery.backend.persistence.repository.DeliveryAssignmentRepository;
 import com.restaurantdelivery.backend.persistence.repository.OrderRepository;
+import com.restaurantdelivery.backend.persistence.repository.StaffMemberRepository;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,7 @@ public class OrderService {
     private final CustomerRepository customerRepository;
     private final OrderRepository orderRepository;
     private final DeliveryAssignmentRepository deliveryAssignmentRepository;
+    private final StaffMemberRepository staffMemberRepository;
     private final MenuPricingService menuPricingService;
     private final OrderWorkflow orderWorkflow;
 
@@ -37,12 +42,14 @@ public class OrderService {
         CustomerRepository customerRepository,
         OrderRepository orderRepository,
         DeliveryAssignmentRepository deliveryAssignmentRepository,
+        StaffMemberRepository staffMemberRepository,
         MenuPricingService menuPricingService,
         OrderWorkflow orderWorkflow
     ) {
         this.customerRepository = customerRepository;
         this.orderRepository = orderRepository;
         this.deliveryAssignmentRepository = deliveryAssignmentRepository;
+        this.staffMemberRepository = staffMemberRepository;
         this.menuPricingService = menuPricingService;
         this.orderWorkflow = orderWorkflow;
     }
@@ -137,6 +144,7 @@ public class OrderService {
 
     @Transactional
     public OrderStatusResponse assignDriver(String orderId, DeliveryAssignmentRequest request) {
+        DriverAssignmentDetails driverDetails = resolveDriverDetails(request);
         OrderEntity order = loadOrder(orderId);
         DeliveryAssignmentEntity assignment = order.getDeliveryAssignment();
 
@@ -146,9 +154,9 @@ public class OrderService {
             order.setDeliveryAssignment(assignment);
         }
 
-        assignment.setDriverName(request.name().trim());
-        assignment.setDriverPhone(request.phone().trim());
-        assignment.setDriverVehicle(request.vehicle().trim());
+        assignment.setDriverName(driverDetails.name());
+        assignment.setDriverPhone(driverDetails.phone());
+        assignment.setDriverVehicle(driverDetails.vehicle());
         assignment.setEtaMinutes(request.etaMinutes());
 
         deliveryAssignmentRepository.save(assignment);
@@ -158,6 +166,39 @@ public class OrderService {
         }
 
         return getOrderStatus(orderId);
+    }
+
+    private DriverAssignmentDetails resolveDriverDetails(DeliveryAssignmentRequest request) {
+        if (hasText(request.demoDriverId())) {
+            StaffMemberEntity demoDriver = staffMemberRepository.findByDemoIdAndRoleAndActiveTrue(
+                    request.demoDriverId().trim(),
+                    StaffRole.DRIVER
+                )
+                .orElseThrow(() -> new BadRequestException("Demo driver not found or inactive: " + request.demoDriverId().trim()));
+
+            return new DriverAssignmentDetails(
+                demoDriver.getDisplayName(),
+                demoDriver.getPhone(),
+                demoDriver.getVehicleDescription()
+            );
+        }
+
+        return new DriverAssignmentDetails(
+            requireText(request.name(), "Driver name is required"),
+            requireText(request.phone(), "Driver phone is required"),
+            requireText(request.vehicle(), "Driver vehicle is required")
+        );
+    }
+
+    private String requireText(String value, String message) {
+        if (!hasText(value)) {
+            throw new BadRequestException(message);
+        }
+        return value.trim();
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.isBlank();
     }
 
     @Transactional(readOnly = true)
@@ -187,5 +228,8 @@ public class OrderService {
             !pizzas.isEmpty(),
             order.getCreatedAt().toString()
         );
+    }
+
+    private record DriverAssignmentDetails(String name, String phone, String vehicle) {
     }
 }

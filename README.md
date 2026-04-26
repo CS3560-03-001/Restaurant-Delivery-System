@@ -39,6 +39,7 @@ This script:
 - creates `backend/.env` and `frontend/.env` from checked-in examples if they do not exist
 - creates backend local runtime directories under `backend/.local/`
 - starts MariaDB first
+- enables local-only demo staff seeding for the backend unless `DEMO_SEED_DATA` is set otherwise
 - waits for the backend health endpoint to come up
 - starts the frontend dev server
 - streams prefixed logs for all managed services in one terminal
@@ -74,6 +75,8 @@ When you are done:
 
 The demo is intentionally form-driven and shows JSON-backed workflow steps from customer creation through order tracking.
 
+Seeded staff demo logins are available on `/cashier`, `/cook`, and `/driver` using the corresponding seeded employee ID with password `demo`, for example `demo-cashier-1`, `demo-cook-1`, or `demo-driver-1`.
+
 ## Environment Files
 
 The full-stack launcher bootstraps these files automatically if they are missing:
@@ -92,6 +95,9 @@ The full-stack launcher bootstraps these files automatically if they are missing
 - `FRONTEND_ORIGIN=http://localhost:5173`
 - `MARIADB_DATABASE=restaurant_delivery`
 - `MARIADB_ROOT_PASSWORD=restaurant-root`
+- `DEMO_SEED_DATA=true`
+
+`DEMO_SEED_DATA` is intended for local demos only. When enabled, backend startup ensures exactly three demo cashiers, three demo cooks, and three demo drivers exist in MariaDB using stable IDs such as `demo-driver-1`; repeated starts update the same records instead of creating duplicates. Disable it for non-demo backend runs by setting `DEMO_SEED_DATA=false` before starting Spring Boot.
 
 ### Frontend Variables
 
