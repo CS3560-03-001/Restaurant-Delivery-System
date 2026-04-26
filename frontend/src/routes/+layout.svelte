@@ -68,12 +68,6 @@
   </div>
 
   {#if $role === 'Customer'}
-    <div class="hero">
-      <p class="muted">Restaurant delivery prototype</p>
-      <h1>Simple pizza ordering with stable JSON contracts.</h1>
-      <p>Capture a customer account, build a pizza, submit payment, then poll for status updates.</p>
-    </div>
-
     <nav class="step-nav" aria-label="Order workflow steps">
       {#each steps as step, index}
         {@const unlocked = isUnlocked(index, $flow)}
