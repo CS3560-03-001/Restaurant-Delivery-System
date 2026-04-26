@@ -153,14 +153,25 @@ export function getOrderStatus(orderId: string): OrderStatusResponse {
     order.statusPollCount += 1;
   }
 
+  const cooks = ['Chef Gordon', 'Chef Marco', 'Chef Julia'];
+  const assignedCook = cooks[orderCounter % cooks.length];
+
   order.status = snapshot.status;
+
+  const drivers = [
+      { name: 'Maya Patel', phone: '555-0144', vehicle: 'Red hatchback' },
+      { name: 'John Doe', phone: '555-0123', vehicle: 'Blue sedan' },
+      { name: 'Alice Smith', phone: '555-0199', vehicle: 'White van' }
+  ];
+  const assignedDriver = drivers[orderCounter % drivers.length];
 
   return {
     orderId,
     status: snapshot.status,
     etaMinutes: snapshot.etaMinutes,
     etaLabel: snapshot.etaMinutes > 0 ? `${snapshot.etaMinutes} minutes` : 'Delivered',
-    driver: snapshot.driver,
+    driver: snapshot.driver ? assignedDriver : undefined,
+    cook: snapshot.status === 'Preparing' || snapshot.status === 'Baking' ? assignedCook : undefined,
     updatedAt: new Date().toISOString()
   };
 }

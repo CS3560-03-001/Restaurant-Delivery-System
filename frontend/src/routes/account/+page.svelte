@@ -1,9 +1,9 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { createCustomer } from '$lib/api/client';
+  import { createCustomer, createOrder } from '$lib/api/client';
   import FormField from '$lib/components/FormField.svelte';
   import type { CustomerCreateRequest } from '$lib/contracts';
-  import { emptyDeliveryAddress, flow } from '$lib/stores/flow';
+  import { emptyDeliveryAddress, flow, isPizzaReady } from '$lib/stores/flow';
   import { get } from 'svelte/store';
 
   const initialDraft = get(flow).accountDraft;
@@ -23,7 +23,6 @@
   $: flow.setAccountDraft(form);
   $: accountErrors = buildAccountErrors(form);
   $: accountReady = !Object.values(accountErrors).some(Boolean);
-  $: requestPreview = JSON.stringify(form, null, 2);
 
   async function handleSubmit() {
     submitError = '';
@@ -40,7 +39,18 @@
       const customer = await createCustomer(fetch, form);
       flow.setCustomer(customer, form);
       successMessage = `Customer profile saved as ${customer.customerId}.`;
-      await goto('/order');
+
+      const drafts = get(flow).pizzaDrafts;
+      if (drafts.length > 0 && drafts.every(isPizzaReady)) {
+        const order = await createOrder(fetch, {
+          customerId: customer.customerId,
+          pizzas: drafts
+        });
+        flow.setOrder(order);
+        await goto('/payment');
+      } else {
+        await goto('/order');
+      }
     } catch (error) {
       submitError = error instanceof Error ? error.message : 'Unable to save customer profile.';
     } finally {
@@ -212,13 +222,4 @@
       <small class="muted">The next step unlocks after the customer profile is valid and saved.</small>
     </div>
   </section>
-
-  <aside class="panel sidebar-card">
-    <div class="hero">
-      <h3>Customer request preview</h3>
-      <p class="muted">This is the JSON payload the frontend sends to the customer endpoint.</p>
-    </div>
-
-    <pre class="code-block">{requestPreview}</pre>
-  </aside>
 </div>

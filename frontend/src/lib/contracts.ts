@@ -61,6 +61,14 @@ export interface PaymentResponse {
   paidAt: string;
 }
 
+export interface SavedPaymentMethod {
+  id: string;
+  paymentMethod: string;
+  billingName: string;
+  cardLast4: string;
+  isDefault: boolean;
+}
+
 export interface DriverInfo {
   name: string;
   phone: string;
@@ -73,6 +81,7 @@ export interface OrderStatusResponse {
   etaMinutes: number;
   etaLabel: string;
   driver?: DriverInfo;
+  cook?: string;
   updatedAt: string;
 }
 

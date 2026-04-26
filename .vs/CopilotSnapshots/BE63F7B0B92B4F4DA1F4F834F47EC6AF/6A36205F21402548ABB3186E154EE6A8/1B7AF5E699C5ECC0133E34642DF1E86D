@@ -1,0 +1,12 @@
+﻿<script lang="ts">
+</script>
+
+<div class="panel content-card">
+  <h2>Kitchen Display (Cook)</h2>
+  <p>Track pending orders and mark them as prepared.</p>
+  <ul>
+    <li>Log in</li>
+    <li>View incoming orders</li>
+    <li>Set status to "Prepared"</li>
+  </ul>
+</div>

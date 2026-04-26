@@ -1,0 +1,57 @@
+﻿<script lang="ts">
+  let pendingOrders = [
+    { id: '1001', pizzas: 3, status: 'Preparing', time: '10:00 AM' },
+    { id: '1002', pizzas: 1, status: 'Preparing', time: '10:05 AM' },
+    { id: '1003', pizzas: 5, status: 'Preparing', time: '10:12 AM' }
+  ];
+
+  function markPrepared(id: string) {
+    pendingOrders = pendingOrders.filter(o => o.id !== id);
+  }
+</script>
+
+<div class="layout-grid">
+  <section class="panel content-card">
+    <div class="hero">
+      <h2>Kitchen Display (Cook)</h2>
+      <p>Track pending orders and mark them as prepared.</p>
+    </div>
+
+    {#if pendingOrders.length === 0}
+      <p class="muted">No pending orders. Good job!</p>
+    {:else}
+      <ul class="order-list">
+        {#each pendingOrders as order}
+          <li class="order-item">
+            <div>
+              <strong>Order #{order.id}</strong>
+              <span> ({order.pizzas} pizzas)</span>
+              <br/>
+              <small class="muted">Received at {order.time}</small>
+            </div>
+            <button class="primary" type="button" on:click={() => markPrepared(order.id)}>
+              Mark as Prepared
+            </button>
+          </li>
+        {/each}
+      </ul>
+    {/if}
+  </section>
+</div>
+
+<style>
+  .order-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .order-item {
+    background: var(--surface-2);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+</style>

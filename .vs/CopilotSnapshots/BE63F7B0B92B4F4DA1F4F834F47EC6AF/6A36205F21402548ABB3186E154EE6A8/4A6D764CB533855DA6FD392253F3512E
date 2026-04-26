@@ -1,0 +1,12 @@
+﻿<script lang="ts">
+</script>
+
+<div class="panel content-card">
+  <h2>Driver Dashboard</h2>
+  <p>View delivery instructions and update delivery status.</p>
+  <ul>
+    <li>Log in</li>
+    <li>View delivery route / instructions</li>
+    <li>Set delivery status (Out for Delivery, Delivered)</li>
+  </ul>
+</div>

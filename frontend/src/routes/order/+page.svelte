@@ -19,14 +19,6 @@
   $: flow.setPizzaDrafts(pizzas.map((pizza) => ({ ...pizza, toppings: [...pizza.toppings] })));
   $: readyForCheckout = pizzas.length > 0 && pizzas.every((pizza) => isPizzaReady(pizza));
   $: total = Number(pizzas.reduce((sum, pizza) => sum + calculatePizzaAmount(pizza), 0).toFixed(2));
-  $: orderPreview = JSON.stringify(
-    {
-      customerId: $flow.customer?.customerId ?? 'customer-id-required',
-      pizzas
-    },
-    null,
-    2
-  );
 
   function addPizza() {
     pizzas = [...pizzas, emptyPizzaSelection()];
@@ -39,13 +31,13 @@
   async function handleCheckout() {
     submitError = '';
 
-    if (!$flow.customer?.customerId) {
-      submitError = 'Complete the customer profile before saving an order.';
+    if (!readyForCheckout) {
+      submitError = 'Select crust, sauce, and cheese before checkout.';
       return;
     }
 
-    if (!readyForCheckout) {
-      submitError = 'Select crust, sauce, and cheese before checkout.';
+    if (!$flow.customer?.customerId) {
+      await goto('/account');
       return;
     }
 
@@ -142,11 +134,5 @@
 
   <aside class="panel sidebar-card">
     <CartSummary pizzas={pizzas} amount={total} />
-
-    <div class="summary-strip">
-      <strong>Order JSON preview</strong>
-      <small class="muted">The grouped contract keeps each pizza distinct inside one order payload.</small>
-      <pre class="code-block">{orderPreview}</pre>
-    </div>
   </aside>
 </div>

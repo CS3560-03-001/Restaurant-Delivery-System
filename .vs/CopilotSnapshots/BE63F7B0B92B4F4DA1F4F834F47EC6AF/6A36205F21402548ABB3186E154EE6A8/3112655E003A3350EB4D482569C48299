@@ -1,0 +1,55 @@
+﻿<script lang="ts">
+  let walkInName = '';
+  let selectedPizzas = 0;
+  let cashAmount = 0;
+  let processing = false;
+  let successMessage = '';
+
+  async function processOrder() {
+    processing = true;
+    successMessage = '';
+    
+    // Simulate network request
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    
+    successMessage = `Successfully placed walk-in order for ${walkInName || 'Guest'} (${selectedPizzas} pizzas) using Cash: $${cashAmount}.`;
+    processing = false;
+    walkInName = '';
+    selectedPizzas = 0;
+    cashAmount = 0;
+  }
+</script>
+
+<div class="layout-grid">
+  <section class="panel content-card">
+    <div class="hero">
+      <h2>Cashier Terminal</h2>
+      <p>Process walk-in customers and handle cash transactions.</p>
+    </div>
+
+    <div class="field">
+      <label for="walkInName">Customer Name (Optional)</label>
+      <input id="walkInName" type="text" bind:value={walkInName} placeholder="Walk-in Guest" />
+    </div>
+
+    <div class="field">
+      <label for="selectedPizzas">Number of Pizzas</label>
+      <input id="selectedPizzas" type="number" min="1" max="20" bind:value={selectedPizzas} />
+    </div>
+
+    <div class="field">
+      <label for="cashAmount">Cash Tendered</label>
+      <input id="cashAmount" type="number" min="0" step="0.01" bind:value={cashAmount} />
+    </div>
+
+    {#if successMessage}
+      <p class="success" style="color: green;">{successMessage}</p>
+    {/if}
+
+    <div class="actions">
+      <button class="primary" type="button" on:click={processOrder} disabled={processing || selectedPizzas < 1 || cashAmount <= 0}>
+        {processing ? 'Processing...' : 'Complete Order & Bypass Card'}
+      </button>
+    </div>
+  </section>
+</div>

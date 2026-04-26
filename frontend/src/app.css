@@ -1,7 +1,7 @@
 :root {
   font-family: 'Inter', 'Arimo', system-ui, sans-serif;
-  color: #1f2933;
-  background: #f6f8fb;
+  color: #e0e0e0;
+  background: #121212;
   line-height: 1.45;
   font-weight: 400;
   font-synthesis: none;
@@ -14,7 +14,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #f6f8fb;
+  background: #121212;
 }
 
 a {
@@ -59,8 +59,8 @@ button {
 }
 
 .panel {
-  background: #ffffff;
-  border: 1px solid #d8dee6;
+  background: #1e1e1e;
+  border: 1px solid #333333;
   border-radius: 0;
   box-shadow: none;
 }
@@ -77,15 +77,15 @@ button {
   gap: 4px;
   padding: 10px 12px;
   border-radius: 0;
-  background: #ffffff;
-  border: 1px solid #d8dee6;
+  background: #1e1e1e;
+  border: 1px solid #333333;
   text-align: left;
   color: inherit;
 }
 
 .step-link.active {
   border-color: #7b93aa;
-  background: #eef3f8;
+  background: #2d2d2d;
 }
 
 .step-link.locked {
@@ -146,9 +146,9 @@ button {
 .field select,
 .field textarea {
   width: 100%;
-  border: 1px solid #c8d1dc;
+  border: 1px solid #444444;
   border-radius: 0;
-  background: #ffffff;
+  background: #1e1e1e;
   color: inherit;
   padding: 9px 10px;
   box-sizing: border-box;
@@ -213,15 +213,15 @@ button {
 }
 
 .secondary {
-  background: #ffffff;
-  border: 1px solid #c8d1dc;
+  background: #1e1e1e;
+  border: 1px solid #444444;
   color: inherit;
 }
 
 .primary:hover:not(:disabled),
 .secondary:hover:not(:disabled) {
-  background: #eef3f8;
-  color: #1f2933;
+  background: #2d2d2d;
+  color: #e0e0e0;
 }
 
 .primary:hover:not(:disabled) {
@@ -251,8 +251,8 @@ button {
   gap: 8px;
   padding: 10px;
   border-radius: 0;
-  background: #fbfcfd;
-  border: 1px solid #d8dee6;
+  background: #2d2d2d;
+  border: 1px solid #333333;
 }
 
 .option-card input {
@@ -261,7 +261,7 @@ button {
 
 .cart-group {
   padding-top: 10px;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid #444444;
 }
 
 .cart-group:first-child {
@@ -291,8 +291,8 @@ button {
   width: fit-content;
   padding: 4px 8px;
   border-radius: 0;
-  background: #eef3f8;
-  border: 1px solid #c8d1dc;
+  background: #2d2d2d;
+  border: 1px solid #444444;
 }
 
 .status-card dl {
@@ -314,15 +314,15 @@ button {
   gap: 6px;
   padding: 12px;
   border-radius: 0;
-  background: #f8fafc;
-  border: 1px solid #d8dee6;
+  background: #1e1e1e;
+  border: 1px solid #333333;
 }
 
 .code-block {
   margin: 0;
   border-radius: 0;
-  background: #f3f6f9;
-  border: 1px solid #d8dee6;
+  background: #121212;
+  border: 1px solid #333333;
   padding: 12px;
   overflow-x: auto;
   white-space: pre-wrap;

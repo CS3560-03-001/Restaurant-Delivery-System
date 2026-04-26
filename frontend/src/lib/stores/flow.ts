@@ -6,7 +6,8 @@ import type {
   OrderCreateResponse,
   OrderStatusResponse,
   PaymentResponse,
-  PizzaSelection
+  PizzaSelection,
+  SavedPaymentMethod
 } from '$lib/contracts';
 import { writable } from 'svelte/store';
 
@@ -26,6 +27,7 @@ export interface FlowState {
   order: OrderCreateResponse | null;
   payment: PaymentResponse | null;
   latestStatus: OrderStatusResponse | null;
+  savedPaymentMethods: SavedPaymentMethod[];
 }
 
 export const emptyDeliveryAddress = (): DeliveryAddress => ({
@@ -55,7 +57,8 @@ export const createDefaultState = (): FlowState => ({
   pizzaDrafts: [emptyPizzaSelection()],
   order: null,
   payment: null,
-  latestStatus: null
+  latestStatus: null,
+  savedPaymentMethods: []
 });
 
 function createFlowStore() {
@@ -80,7 +83,8 @@ function createFlowStore() {
     setOrder: (order: OrderCreateResponse) => store.update((state) => ({ ...state, order })),
     setPayment: (payment: PaymentResponse) => store.update((state) => ({ ...state, payment })),
     setLatestStatus: (latestStatus: OrderStatusResponse) =>
-      store.update((state) => ({ ...state, latestStatus }))
+      store.update((state) => ({ ...state, latestStatus })),
+    setSavedPaymentMethods: (savedPaymentMethods: SavedPaymentMethod[]) => store.update((state) => ({ ...state, savedPaymentMethods }))
   };
 }
 
@@ -123,7 +127,8 @@ function normalizeStoredState(stored: LegacyStoredFlowState): FlowState {
     customer: stored.customer ?? null,
     order: stored.order ?? null,
     payment: stored.payment ?? null,
-    latestStatus: stored.latestStatus ?? null
+    latestStatus: stored.latestStatus ?? null,
+    savedPaymentMethods: stored.savedPaymentMethods ?? []
   };
 }
 

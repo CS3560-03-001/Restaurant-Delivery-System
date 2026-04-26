@@ -43,8 +43,6 @@
       clearInterval(timer);
     }
   });
-
-  $: statusPreview = JSON.stringify($flow.latestStatus, null, 2);
 </script>
 
 <svelte:head>
@@ -79,13 +77,4 @@
       </button>
     </div>
   </section>
-
-  <aside class="panel sidebar-card">
-    <div class="hero">
-      <h3>Status payload preview</h3>
-      <p class="muted">The response can progressively add driver details as delivery advances.</p>
-    </div>
-
-    <pre class="code-block">{statusPreview}</pre>
-  </aside>
 </div>

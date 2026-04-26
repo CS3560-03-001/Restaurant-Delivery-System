@@ -19,12 +19,11 @@
 </script>
 
 <section>
-  <div class="hero">
-    <h3>Order summary</h3>
-    <p class="muted">Each pizza stays grouped by menu source so the order JSON remains predictable.</p>
-  </div>
+<div class="hero">
+  <h3>Order summary</h3>
+</div>
 
-  {#each pizzas as pizza, index}
+{#each pizzas as pizza, index}
     <div class="cart-group">
       <h4>Pizza {index + 1}</h4>
       {#each groups as group}

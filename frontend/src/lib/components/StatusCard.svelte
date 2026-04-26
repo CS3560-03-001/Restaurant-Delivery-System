@@ -19,6 +19,12 @@
       <dd>{status.etaLabel}</dd>
       <dt>Updated</dt>
       <dd>{new Date(status.updatedAt).toLocaleTimeString()}</dd>
+      
+      {#if status.cook}
+        <dt>Cook</dt>
+        <dd>{status.cook}</dd>
+      {/if}
+
       {#if status.driver}
         <dt>Driver</dt>
         <dd>{status.driver.name}</dd>

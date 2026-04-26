@@ -1,0 +1,12 @@
+﻿<script lang="ts">
+</script>
+
+<div class="panel content-card">
+  <h2>Cashier Terminal</h2>
+  <p>Process walk-in customers and handle cash transactions.</p>
+  <ul>
+    <li>Log in</li>
+    <li>Take customer orders</li>
+    <li>Bypass card payment (cash register interface)</li>
+  </ul>
+</div>
