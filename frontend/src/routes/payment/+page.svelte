@@ -149,15 +149,27 @@
     {/if}
 
     {#if savedMethods.length > 0}
-      <div class="field">
-        <label>
-          <input type="radio" bind:group={useSavedMethod} value={true} />
-          Use a saved payment method
-        </label>
-        <label>
-          <input type="radio" bind:group={useSavedMethod} value={false} />
-          Add a new payment method
-        </label>
+      <div class="mode-toggle" aria-label="Payment method mode">
+        <button
+          class="mode-card"
+          class:active={useSavedMethod}
+          type="button"
+          aria-pressed={useSavedMethod}
+          on:click={() => (useSavedMethod = true)}
+        >
+          <strong>Saved method</strong>
+          <span>Reuse a stored payment option.</span>
+        </button>
+        <button
+          class="mode-card"
+          class:active={!useSavedMethod}
+          type="button"
+          aria-pressed={!useSavedMethod}
+          on:click={() => (useSavedMethod = false)}
+        >
+          <strong>New method</strong>
+          <span>Add payment details for this checkout.</span>
+        </button>
       </div>
     {/if}
 

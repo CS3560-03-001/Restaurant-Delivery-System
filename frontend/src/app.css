@@ -1,20 +1,41 @@
 :root {
   font-family: 'Inter', 'Arimo', system-ui, sans-serif;
-  color: #e0e0e0;
-  background: #121212;
+  color-scheme: light;
+  color: #1f2933;
+  background: #f6f8fb;
   line-height: 1.45;
   font-weight: 400;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --surface-alt: #fbfcfd;
+  --surface-soft: #f8fafc;
+  --surface-active: #eef3f8;
+  --surface-2: #f8fafc;
+  --surface-3: #eef3f8;
+  --border: #d8dee6;
+  --border-strong: #c8d1dc;
+  --border-soft: #e2e8f0;
+  --text: #1f2933;
+  --muted: #5f6c7b;
+  --text-2: #5f6c7b;
+  --primary: #2f5d87;
+  --primary-border: #2f5d87;
+  --focus: #a8c0d8;
+  --warning-surface: #fff4d6;
+  --warning-text: #8a5a00;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #121212;
+  background: var(--bg);
+  color: var(--text);
 }
 
 a {
@@ -59,8 +80,8 @@ button {
 }
 
 .panel {
-  background: #1e1e1e;
-  border: 1px solid #333333;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 0;
   box-shadow: none;
 }
@@ -77,15 +98,15 @@ button {
   gap: 4px;
   padding: 10px 12px;
   border-radius: 0;
-  background: #1e1e1e;
-  border: 1px solid #333333;
+  background: var(--surface);
+  border: 1px solid var(--border);
   text-align: left;
   color: inherit;
 }
 
 .step-link.active {
-  border-color: #7b93aa;
-  background: #2d2d2d;
+  border-color: var(--border-strong);
+  background: var(--surface-active);
 }
 
 .step-link.locked {
@@ -103,7 +124,7 @@ button {
 }
 
 .step-link span {
-  color: #5f6c7b;
+  color: var(--muted);
   font-size: 0.82rem;
 }
 
@@ -146,9 +167,9 @@ button {
 .field select,
 .field textarea {
   width: 100%;
-  border: 1px solid #444444;
+  border: 1px solid var(--border-strong);
   border-radius: 0;
-  background: #1e1e1e;
+  background: var(--surface);
   color: inherit;
   padding: 9px 10px;
   box-sizing: border-box;
@@ -157,9 +178,9 @@ button {
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  outline: 2px solid #a8c0d8;
+  outline: 2px solid var(--focus);
   outline-offset: 1px;
-  border-color: #7b93aa;
+  border-color: var(--border-strong);
 }
 
 .field textarea {
@@ -180,7 +201,7 @@ button {
 
 .field small,
 .muted {
-  color: #5f6c7b;
+  color: var(--muted);
 }
 
 .error {
@@ -206,26 +227,26 @@ button {
 }
 
 .primary {
-  background: #2f5d87;
-  border: 1px solid #2f5d87;
+  background: var(--primary);
+  border: 1px solid var(--primary-border);
   color: #ffffff;
   font-weight: 600;
 }
 
 .secondary {
-  background: #1e1e1e;
-  border: 1px solid #444444;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
   color: inherit;
 }
 
 .primary:hover:not(:disabled),
 .secondary:hover:not(:disabled) {
-  background: #2d2d2d;
-  color: #e0e0e0;
+  background: var(--surface-active);
+  color: var(--text);
 }
 
 .primary:hover:not(:disabled) {
-  border-color: #7b93aa;
+  border-color: var(--border-strong);
 }
 
 .primary:disabled,
@@ -251,8 +272,8 @@ button {
   gap: 8px;
   padding: 10px;
   border-radius: 0;
-  background: #2d2d2d;
-  border: 1px solid #333333;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
 }
 
 .option-card input {
@@ -261,7 +282,7 @@ button {
 
 .cart-group {
   padding-top: 10px;
-  border-top: 1px solid #444444;
+  border-top: 1px solid var(--border-soft);
 }
 
 .cart-group:first-child {
@@ -291,8 +312,8 @@ button {
   width: fit-content;
   padding: 4px 8px;
   border-radius: 0;
-  background: #2d2d2d;
-  border: 1px solid #444444;
+  background: var(--surface-active);
+  border: 1px solid var(--border-strong);
 }
 
 .status-card dl {
@@ -302,7 +323,7 @@ button {
 }
 
 .status-card dt {
-  color: #5f6c7b;
+  color: var(--muted);
 }
 
 .status-card dd {
@@ -314,20 +335,110 @@ button {
   gap: 6px;
   padding: 12px;
   border-radius: 0;
-  background: #1e1e1e;
-  border: 1px solid #333333;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+}
+
+.divider {
+  height: 1px;
+  background: var(--border-soft);
 }
 
 .code-block {
   margin: 0;
   border-radius: 0;
-  background: #121212;
-  border: 1px solid #333333;
+  background: #f3f6f9;
+  border: 1px solid var(--border);
   padding: 12px;
   overflow-x: auto;
   white-space: pre-wrap;
   word-break: break-word;
   font-size: 0.9rem;
+}
+
+.role-switcher {
+  padding: 1rem;
+  background: var(--surface-soft);
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.role-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  flex: 1 1 640px;
+}
+
+.role-option {
+  display: grid;
+  place-items: center;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  text-align: center;
+  cursor: pointer;
+}
+
+.role-option.active {
+  background: var(--surface-active);
+  border-color: var(--border-strong);
+}
+
+.role-option input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.role-option span {
+  font-weight: 600;
+}
+
+.mode-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.mode-card {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 0;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  text-align: left;
+  color: inherit;
+}
+
+.mode-card.active {
+  border-color: var(--border-strong);
+  background: var(--surface-active);
+}
+
+.mode-card span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.mode-card:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.compact-action {
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  width: fit-content;
 }
 
 @media (max-width: 900px) {
@@ -339,6 +450,10 @@ button {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+   .role-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .shell {
     padding: 14px;
   }
@@ -346,6 +461,11 @@ button {
 
 @media (max-width: 560px) {
   .step-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .role-options,
+  .mode-toggle {
     grid-template-columns: 1fr;
   }
 

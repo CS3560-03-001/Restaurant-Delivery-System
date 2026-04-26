@@ -59,7 +59,7 @@
 </script>
 
 <svelte:head>
-  <title>Build Order | Restaurant Delivery Prototype</title>
+  <title>Build Order | Restaurant Delivery Demo</title>
 </svelte:head>
 
 <div class="layout-grid">

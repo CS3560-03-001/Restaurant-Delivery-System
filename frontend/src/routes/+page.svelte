@@ -3,9 +3,9 @@
   import { onMount } from 'svelte';
 
   onMount(() => {
-    void goto('/order');
+    void goto('/account');
   });
 </script>
 
-<p class="muted">Opening the order flow.</p>
+<p class="muted">Opening the account flow.</p>
 

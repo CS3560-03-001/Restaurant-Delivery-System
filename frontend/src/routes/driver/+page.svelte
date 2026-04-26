@@ -20,40 +20,22 @@
     deliveries = deliveries.filter(d => d.id !== id);
   }
 
-  let isSignup = false;
   let username = '';
   let password = '';
-  let email = '';
   let authError = '';
 
   function handleAuth() {
     authError = '';
     const users = $registeredUsers.Driver || {};
 
-    if (isSignup) {
-      if (users[username.trim()]) {
-        authError = 'Username already exists.';
-        return;
-      }
-      if (!email.trim() || !username.trim() || !password.trim()) {
-        authError = 'All fields are required to sign up.';
-        return;
-      }
-      $registeredUsers = {
-        ...$registeredUsers,
-        Driver: { ...users, [username.trim()]: { password, email } }
-      };
+    const userObj = users[username.trim()];
+    const isString = typeof userObj === 'string';
+    const actualPassword = isString ? userObj : userObj?.password;
+
+    if (userObj && actualPassword === password) {
       $authState = { ...$authState, driver: username.trim() };
     } else {
-      const userObj = users[username.trim()];
-      const isString = typeof userObj === 'string';
-      const actualPassword = isString ? userObj : userObj?.password;
-
-      if (userObj && actualPassword === password) {
-        $authState = { ...$authState, driver: username.trim() };
-      } else {
-        authError = 'Invalid credentials or user does not exist.';
-      }
+      authError = 'Invalid credentials or user does not exist.';
     }
   }
 
@@ -61,7 +43,6 @@
     $authState = { ...$authState, driver: '' };
     username = '';
     password = '';
-    email = '';
   }
 </script>
 
@@ -71,22 +52,13 @@
       <h2>Driver Dashboard</h2>
       {#if $authState.driver}
         <p>Logged in as: <strong>{$authState.driver}</strong></p>
-        <button class="secondary" style="margin-top: 0.5rem; max-width: 150px;" type="button" on:click={handleLogout}>Log out</button>
+        <button class="secondary compact-action" type="button" on:click={handleLogout}>Log out</button>
       {:else}
         <p>Please log in to continue.</p>
       {/if}
     </div>
 
     {#if !$authState.driver}
-      <div class="field">
-        <label>
-          <input type="radio" bind:group={isSignup} value={false} /> Log In
-        </label>
-        <label style="margin-left: 1rem;">
-          <input type="radio" bind:group={isSignup} value={true} /> Sign Up
-        </label>
-      </div>
-
       <div class="field">
         <label for="username">Driver Username</label>
         <input id="username" type="text" bind:value={username} placeholder="e.g. driver_tim" />
@@ -95,18 +67,12 @@
         <label for="password">Password</label>
         <input id="password" type="password" bind:value={password} />
       </div>
-      {#if isSignup}
-        <div class="field">
-          <label for="email">Email</label>
-          <input id="email" type="email" bind:value={email} placeholder="e.g. driver_tim@restaurant.com" />
-        </div>
-      {/if}
       {#if authError}
         <p class="error">{authError}</p>
       {/if}
       <div class="actions">
-        <button class="primary" type="button" on:click={handleAuth} disabled={!username.trim() || !password.trim() || (isSignup && !email.trim())}>
-          {isSignup ? 'Sign Up' : 'Log In'}
+        <button class="primary" type="button" on:click={handleAuth} disabled={!username.trim() || !password.trim()}>
+          Log In
         </button>
       </div>
     {:else}
@@ -156,10 +122,12 @@
     background: var(--surface-2);
     padding: 1rem;
     margin-bottom: 1rem;
-    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-radius: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
   }
   .address {
     margin: 4px 0;
@@ -167,13 +135,13 @@
   }
   .chip {
     padding: 2px 6px;
-    border-radius: 12px;
+    border-radius: 0;
     font-size: 0.85em;
     background: var(--surface-3);
   }
   .chip.out {
-    background: #ffecb3;
-    color: #f57f17;
+    background: var(--warning-surface);
+    color: var(--warning-text);
     font-weight: bold;
   }
 </style>
