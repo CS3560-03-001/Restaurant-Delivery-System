@@ -8,10 +8,13 @@ require_command docker
 
 load_state
 
-stop_pid "${FRONTEND_TAIL_PID:-}" "frontend log tail"
-stop_pid "${BACKEND_TAIL_PID:-}" "backend log tail"
-stop_pid "${FRONTEND_PID:-}" "frontend"
-stop_pid "${BACKEND_PID:-}" "backend"
+if [ -n "${FRONTEND_PID:-}" ]; then
+  stop_pid "$FRONTEND_PID" "frontend"
+fi
+
+if [ -n "${BACKEND_PID:-}" ]; then
+  stop_pid "$BACKEND_PID" "backend"
+fi
 
 if docker compose -f "$BACKEND_COMPOSE_FILE" down >/dev/null 2>&1; then
   pass "MariaDB stack stopped"

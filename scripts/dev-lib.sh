@@ -14,16 +14,82 @@ STATE_DIR="$BACKEND_DIR/.local/dev-orchestration"
 LOG_DIR="$STATE_DIR/logs"
 STATE_FILE="$STATE_DIR/state.env"
 
+color_enabled() {
+  [ -t 1 ] && [ -z "${NO_COLOR:-}" ]
+}
+
+label_color() {
+  case "$1" in
+    info) printf '36' ;;
+    frontend) printf '92' ;;
+    backend) printf '35' ;;
+    health) printf '33' ;;
+    startup) printf '34' ;;
+    ready) printf '32' ;;
+    cleanup) printf '90' ;;
+    bootstrap) printf '94' ;;
+    verify) printf '34' ;;
+    smoke) printf '36' ;;
+    error|FAIL) printf '31' ;;
+    PASS) printf '32' ;;
+    *) printf '37' ;;
+  esac
+}
+
+print_label() {
+  local label="$1"
+  local color_code
+
+  if color_enabled; then
+    color_code="$(label_color "$label")"
+    printf '\033[%sm[%s]\033[0m' "$color_code" "$label"
+  else
+    printf '[%s]' "$label"
+  fi
+}
+
+print_line() {
+  local label="$1"
+  local message="$2"
+  local color_code
+
+  if color_enabled; then
+    color_code="$(label_color "$label")"
+    printf '\033[%sm[%s] %s\033[0m\n' "$color_code" "$label" "$message"
+  else
+    printf '[%s] %s\n' "$label" "$message"
+  fi
+}
+
+print_prefixed_line() {
+  local label="$1"
+  local message="$2"
+  local color_code
+
+  if color_enabled; then
+    color_code="$(label_color "$label")"
+    printf '\033[%sm[%s]\033[0m %s\n' "$color_code" "$label" "$message"
+  else
+    printf '[%s] %s\n' "$label" "$message"
+  fi
+}
+
 log() {
-  printf '[%s] %s\n' "$1" "$2"
+  print_prefixed_line "$1" "$2"
 }
 
 pass() {
-  printf '[PASS] %s\n' "$1"
+  print_line "PASS" "$1"
 }
 
 fail() {
-  printf '[FAIL] %s\n' "$1" >&2
+  if color_enabled; then
+    local color_code
+    color_code="$(label_color "FAIL")"
+    printf '\033[%sm[FAIL] %s\033[0m\n' "$color_code" "$1" >&2
+  else
+    printf '[FAIL] %s\n' "$1" >&2
+  fi
   exit 1
 }
 
@@ -96,13 +162,57 @@ start_logged_command() {
   local workdir="$1"
   local envfile="$2"
   local logfile="$3"
-  shift 3
+  local prefix="$4"
+  local use_color="0"
+  shift 4
+
+  if color_enabled; then
+    use_color="1"
+  fi
+
+  : >"$logfile"
 
   bash -c '
     set -euo pipefail
     workdir="$1"
     envfile="$2"
-    shift 2
+    logfile="$3"
+    prefix="$4"
+    use_color="$5"
+    shift 5
+    color_enabled() {
+      [ "$use_color" = "1" ] && [ -z "${NO_COLOR:-}" ]
+    }
+    label_color() {
+      case "$1" in
+        frontend) printf "92" ;;
+        backend) printf "35" ;;
+        *) printf "37" ;;
+      esac
+    }
+    print_label() {
+      local label="$1"
+      local color_code
+
+      if color_enabled; then
+        color_code="$(label_color "$label")"
+        printf "\033[%sm[%s]\033[0m" "$color_code" "$label"
+      else
+        printf "[%s]" "$label"
+      fi
+    }
+    print_prefixed_line() {
+      local label="$1"
+      local message="$2"
+      local color_code
+
+      if color_enabled; then
+        color_code="$(label_color "$label")"
+        printf "\033[%sm[%s]\033[0m %s\n" "$color_code" "$label" "$message"
+      else
+        printf "[%s] %s\n" "$label" "$message"
+      fi
+    }
     cd "$workdir"
     if [ -n "$envfile" ] && [ -f "$envfile" ]; then
       set -a
@@ -110,24 +220,15 @@ start_logged_command() {
       source "$envfile"
       set +a
     fi
-    exec "$@"
-  ' _ "$workdir" "$envfile" "$@" >"$logfile" 2>&1 &
-  STARTED_PID="$!"
-}
-
-start_prefixed_tail() {
-  local logfile="$1"
-  local prefix="$2"
-
-  bash -c '
-    set -euo pipefail
-    logfile="$1"
-    prefix="$2"
-    touch "$logfile"
-    tail -n 0 -F "$logfile" | while IFS= read -r line; do
-      printf "[%s] %s\n" "$prefix" "$line"
+    if command -v stdbuf >/dev/null 2>&1; then
+      stdbuf -oL -eL "$@"
+    else
+      "$@"
+    fi 2>&1 | while IFS= read -r line; do
+      printf "%s\n" "$line" >>"$logfile"
+      print_prefixed_line "$prefix" "$line"
     done
-  ' _ "$logfile" "$prefix" >&2 &
+  ' _ "$workdir" "$envfile" "$logfile" "$prefix" "$use_color" "$@" &
   STARTED_PID="$!"
 }
 
@@ -135,13 +236,14 @@ wait_for_http() {
   local label="$1"
   local url="$2"
   local timeout_seconds="${3:-120}"
+  local log_label="${4:-ready}"
   local start_seconds now_seconds http_code
 
   start_seconds="$(date +%s)"
   while true; do
     http_code="$(curl -sS -o /dev/null -w '%{http_code}' "$url" || true)"
     if [ -n "$http_code" ] && [ "$http_code" != "000" ] && [ "$http_code" -ge 200 ] && [ "$http_code" -lt 400 ]; then
-      log "ready" "$label responded with HTTP $http_code"
+      log "$log_label" "$label responded with HTTP $http_code"
       return 0
     fi
 
